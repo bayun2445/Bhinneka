@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.bayu.bhinneka" />
+                  <option name="mobileSdkAppId" value="1:725398887289:android:0e89b6e22838865367ada8" />
+                  <option name="projectId" value="skripsi-bhinneka" />
+                  <option name="projectNumber" value="725398887289" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

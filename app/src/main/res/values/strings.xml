@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Bhinneka</string>
+    <string name="name">Nama Jajanan</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="calorie">Kalori</string>
+    <string name="carbs">Karbohidrat</string>
+    <string name="protein">Protein</string>
+    <string name="fat">Lemak</string>
+    <string name="natrium">Natrium</string>
+    <string name="kalium">Kalium</string>
+    <string name="recipe">Resep</string>
 </resources>
