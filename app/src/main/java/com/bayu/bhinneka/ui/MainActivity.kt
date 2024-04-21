@@ -1,4 +1,4 @@
-package com.bayu.bhinneka
+package com.bayu.bhinneka.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
