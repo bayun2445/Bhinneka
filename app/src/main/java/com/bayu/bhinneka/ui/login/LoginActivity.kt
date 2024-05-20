@@ -1,4 +1,4 @@
-package com.bayu.bhinneka.ui.logincom.dicoding.myfirebasechat
+package com.bayu.bhinneka.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -21,13 +21,14 @@ import com.google.firebase.auth.auth
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
+    private val binding by lazy {
+        ActivityLoginBinding.inflate(layoutInflater)
+    }
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Configure Google Sign In
@@ -43,7 +44,11 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth
 
         binding.btnSignIn.setOnClickListener {
-            signIn()
+//            signIn()
+
+            Intent(this@LoginActivity, MainActivity::class.java).also {
+                startActivity(it)
+            }
         }
 
     }

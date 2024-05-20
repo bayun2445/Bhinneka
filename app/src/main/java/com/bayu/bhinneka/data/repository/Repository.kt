@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import javax.security.auth.callback.Callback
 
 class Repository {
     private val database = Firebase.database.reference
@@ -36,8 +37,11 @@ class Repository {
 
         return liveData
     }
-    fun addNewJajanan(jajanan: Jajanan) {
+    fun addNewJajanan(jajanan: Jajanan, isSuccessful: (Boolean) -> Unit) {
         database.child(CHILD_JAJANAN).child(jajanan.name).setValue(jajanan)
+            .addOnCompleteListener { task ->
+                isSuccessful(task.isSuccessful)
+            }
     }
 
     fun updateJajanan(jajanan: Jajanan) {

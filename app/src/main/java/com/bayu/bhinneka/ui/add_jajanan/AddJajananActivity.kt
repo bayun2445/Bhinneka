@@ -1,12 +1,14 @@
 package com.bayu.bhinneka.ui.add_jajanan
 
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.data.model.Nutrition
 import com.bayu.bhinneka.databinding.ActivityAddJajananBinding
@@ -26,6 +28,9 @@ class AddJajananActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        setSupportActionBar(binding.topBarMenu)
+        supportActionBar?.title = "Add Jajanan"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         viewModel = ViewModelProvider(this)[AddJajananViewModel::class.java]
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -33,8 +38,26 @@ class AddJajananActivity : AppCompatActivity() {
             insets
         }
 
+        observeViewModel()
+
         binding.btnPost.setOnClickListener {
             postJajanan()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_bar_menu, menu)
+        menu?.findItem(R.id.menu_edit)?.setVisible(false)
+        return true
+    }
+
+    private fun observeViewModel() {
+        viewModel.isSuccessful.observe(this) {
+            if (it) {
+                Toast.makeText(this, "Berhasil Menambahkan", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Gagal", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
