@@ -9,7 +9,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
-import javax.security.auth.callback.Callback
 
 class Repository {
     private val database = Firebase.database.reference

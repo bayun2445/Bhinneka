@@ -12,9 +12,6 @@ import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.data.model.Nutrition
 import com.bayu.bhinneka.databinding.ActivityAddJajananBinding
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 
 class AddJajananActivity : AppCompatActivity() {
 
