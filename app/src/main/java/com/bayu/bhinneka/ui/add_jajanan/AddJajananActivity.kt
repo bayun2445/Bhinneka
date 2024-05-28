@@ -28,12 +28,14 @@ class AddJajananActivity : AppCompatActivity() {
         setSupportActionBar(binding.topBarMenu)
         supportActionBar?.title = "Add Jajanan"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        viewModel = ViewModelProvider(this)[AddJajananViewModel::class.java]
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        viewModel = ViewModelProvider(this)[AddJajananViewModel::class.java]
 
         observeViewModel()
 
