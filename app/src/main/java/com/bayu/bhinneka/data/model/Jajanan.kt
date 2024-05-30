@@ -9,4 +9,10 @@ data class Jajanan(
     val description: String,
     val recipe: String,
     val nutrition: Nutrition,
-) : Parcelable
+) : Parcelable {
+    constructor() : this(
+        "",
+        "", "",
+        Nutrition()
+    )
+}

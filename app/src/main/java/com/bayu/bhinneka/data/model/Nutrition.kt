@@ -5,10 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Nutrition(
-    val carbs: Double,
-    val calorie: Double,
-    val fat: Double,
-    val protein: Double,
-    val natrium: Double,
-    val kalium: Double,
+    var carbs: Double? = null,
+    var calorie: Double? = null,
+    var fat: Double? = null,
+    var protein: Double? = null,
+    var natrium: Double? = null,
+    var kalium: Double? = null,
 ) : Parcelable

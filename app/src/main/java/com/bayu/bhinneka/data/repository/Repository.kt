@@ -25,6 +25,11 @@ class Repository {
                         jajananList.add(jajanan)
                     }
                 }
+
+                Log.d(
+                    "getAllJajanan()",
+                    jajananList.toString()
+                )
                 liveData.value = jajananList
             }
 

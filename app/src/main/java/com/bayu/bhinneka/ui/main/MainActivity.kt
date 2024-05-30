@@ -10,7 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityMainBinding
-import com.bayu.bhinneka.ui.add_jajanan.AddJajananActivity
+import com.bayu.bhinneka.ui.list_jajanan.ListJajananActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.menu_edit -> {
                 startActivity(
-                    Intent(this@MainActivity, AddJajananActivity::class.java)
+                    Intent(this@MainActivity, ListJajananActivity::class.java)
                 )
 
                 true

@@ -50,10 +50,16 @@ class AddJajananActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
     private fun observeViewModel() {
         viewModel.isSuccessful.observe(this) {
             if (it) {
                 Toast.makeText(this, "Berhasil Menambahkan", Toast.LENGTH_SHORT).show()
+                finish()
             } else {
                 Toast.makeText(this, "Gagal", Toast.LENGTH_SHORT).show()
             }

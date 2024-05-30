@@ -2,11 +2,14 @@ package com.bayu.bhinneka.ui.list_jajanan
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.databinding.ActivityListJajananBinding
@@ -23,6 +26,9 @@ class ListJajananActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        setSupportActionBar(binding.topBarMenu)
+        supportActionBar?.title = "Data Jajanan"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -31,17 +37,34 @@ class ListJajananActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[ListJajananViewModel::class.java]
 
-        observeViewModel()
+        binding.rvListJajanan.layoutManager = LinearLayoutManager(this)
 
         binding.fabAdd.setOnClickListener {
             Intent(this@ListJajananActivity, AddJajananActivity::class.java).also {
                 startActivity(it)
             }
         }
+
+        observeViewModel()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.top_bar_menu, menu)
+        menu?.findItem(R.id.menu_edit)?.setVisible(false)
+        return true
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     private fun observeViewModel() {
         viewModel.getAllJajanan().observe(this) {
+            Log.d(
+                "ListJajananActivity",
+                it.toString()
+            )
             it?.let {
                 loadList(it)
             }
@@ -60,5 +83,8 @@ class ListJajananActivity : AppCompatActivity() {
                 }
             }
         )
+
+        binding.rvListJajanan.adapter = adapter
+        binding.rvListJajanan.setHasFixedSize(false)
     }
 }
