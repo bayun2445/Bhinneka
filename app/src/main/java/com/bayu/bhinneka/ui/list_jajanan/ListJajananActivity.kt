@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -69,6 +71,12 @@ class ListJajananActivity : AppCompatActivity() {
                 loadList(it)
             }
         }
+
+        viewModel.isSuccessful.observe(this) {
+            if (it) {
+                Toast.makeText(this, "Berhasil terhapus!", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun loadList(listJajanan: List<Jajanan>) {
@@ -79,7 +87,19 @@ class ListJajananActivity : AppCompatActivity() {
             object : JajananListAdapter.ItemClick {
                 override fun deleteClick(position: Int) {
                     val selectedJajanan = listJajanan[position]
-                    viewModel.deleteJajanan(selectedJajanan)
+
+                    val alertBuilder = AlertDialog.Builder(this@ListJajananActivity)
+                        .setTitle("Delete Jajanan")
+                        .setMessage("Anda yakin akan menghapus data ${selectedJajanan.name}?")
+                        .setPositiveButton("Hapus") { _, _ ->
+                            viewModel.deleteJajanan(selectedJajanan)
+                        }
+                        .setNegativeButton("Batal") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+
+                    alertBuilder.create().show()
+
                 }
             }
         )

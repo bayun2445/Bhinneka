@@ -26,15 +26,11 @@ class Repository {
                     }
                 }
 
-                Log.d(
-                    "getAllJajanan()",
-                    jajananList.toString()
-                )
                 liveData.value = jajananList
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("Repository", "Failed to load jajananList", error.toException())
+                Log.e("Repository", "Failed to load jajananList: ", error.toException())
             }
 
         })
@@ -48,12 +44,18 @@ class Repository {
             }
     }
 
-    fun updateJajanan(jajanan: Jajanan) {
+    fun updateJajanan(jajanan: Jajanan, isSuccessful: (Boolean) -> Unit) {
         database.child(CHILD_JAJANAN).child(jajanan.name).setValue(jajanan)
+            .addOnCompleteListener { task ->
+                isSuccessful(task.isSuccessful)
+            }
     }
 
-    fun deleteJajanan(jajanan: Jajanan) {
+    fun deleteJajanan(jajanan: Jajanan, isSuccessful: (Boolean) -> Unit) {
         database.child(CHILD_JAJANAN).child(jajanan.name).removeValue()
+            .addOnCompleteListener { task ->
+                isSuccessful(task.isSuccessful)
+            }
     }
     companion object {
         private const val CHILD_JAJANAN = "jajanan"
