@@ -8,5 +8,7 @@
             app:showAsAction="ifRoom"/>
         <item android:id="@+id/menu_about"
             android:title="@string/about" />
+        <item android:id="@+id/menu_logout"
+            android:title="@string/logout"/>
     </group>
 </menu>

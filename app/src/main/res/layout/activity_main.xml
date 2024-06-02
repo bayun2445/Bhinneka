@@ -14,6 +14,8 @@
         android:layout_height="128dp"
         android:background="?colorPrimaryContainer"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:titleTextColor="?colorOnPrimaryContainer"
+        app:iconTint="?colorOnPrimaryContainer"
         app:subtitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

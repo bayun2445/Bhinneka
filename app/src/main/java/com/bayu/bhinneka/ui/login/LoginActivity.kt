@@ -1,13 +1,8 @@
 package com.bayu.bhinneka.ui.login
 
-import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -16,13 +11,8 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.BuildConfig
-import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityLoginBinding
 import com.bayu.bhinneka.ui.main.MainActivity
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -38,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityLoginBinding.inflate(layoutInflater)
     }
-    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
         val credentialManager = CredentialManager.create(this) //import from androidx.CredentialManager
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("725398887289-bk5shodgagpf776vjttqt2e1utoc2it9.apps.googleusercontent.com")
+            .setServerClientId(BuildConfig.CLIENT_ID)
             .build()
         val request = GetCredentialRequest.Builder()
             .addCredentialOption(googleIdOption)
