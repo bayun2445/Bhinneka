@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.databinding.ItemListJajananBinding
 import com.bayu.bhinneka.helper.DiffCallback
+import com.bayu.bhinneka.helper.JAJANAN_PARCELABLE_EXTRA
 import com.bayu.bhinneka.ui.edit_jajanan.EditJajananActivity
 
 class JajananListAdapter: RecyclerView.Adapter<JajananListAdapter.JajananViewHolder>() {
@@ -63,7 +64,7 @@ class JajananListAdapter: RecyclerView.Adapter<JajananListAdapter.JajananViewHol
                 itemBinding.txtJajananName.text = jajanan.name
                 itemView.setOnClickListener{
                     val intent = Intent(itemView.context, EditJajananActivity::class.java)
-                    intent.putExtra("jajanan", jajanan)
+                    intent.putExtra(JAJANAN_PARCELABLE_EXTRA, jajanan)
 
                     itemView.context.startActivity(intent)
                 }

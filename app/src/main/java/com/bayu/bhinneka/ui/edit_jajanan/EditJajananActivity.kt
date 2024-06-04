@@ -11,6 +11,7 @@ import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.data.model.Nutrition
 import com.bayu.bhinneka.databinding.ActivityEditJajananBinding
+import com.bayu.bhinneka.helper.JAJANAN_PARCELABLE_EXTRA
 
 class EditJajananActivity : AppCompatActivity() {
 
@@ -35,10 +36,10 @@ class EditJajananActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[EditJajananViewModel::class.java]
 
-        if (intent.hasExtra("jajanan")) {
-            jajananIntent = intent.getParcelableExtra("jajanan")!!
+        if (intent.hasExtra(JAJANAN_PARCELABLE_EXTRA)) {
+            jajananIntent = intent.getParcelableExtra(JAJANAN_PARCELABLE_EXTRA)!!
         } else {
-            Toast.makeText(this, "No extra included", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Jajanan Extra not found!", Toast.LENGTH_SHORT).show()
             finish()
         }
 

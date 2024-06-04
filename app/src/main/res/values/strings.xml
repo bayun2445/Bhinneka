@@ -65,4 +65,8 @@
     <string name="edit_jajanan">Edit Jajanan</string>
     <string name="save">Simpan</string>
     <string name="logout">Logout</string>
+    <string name="prediction_result">Hasil Prediksi</string>
+    <string name="menu_gallery">Galeri</string>
+    <string name="menu_camera">Kamera\n</string>
+    <string name="choose_picture">Pilih Gambar</string>
 </resources>

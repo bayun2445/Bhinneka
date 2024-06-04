@@ -2,7 +2,6 @@ package com.bayu.bhinneka.ui.list_jajanan
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -42,9 +41,7 @@ class ListJajananActivity : AppCompatActivity() {
         binding.rvListJajanan.layoutManager = LinearLayoutManager(this)
 
         binding.fabAdd.setOnClickListener {
-            Intent(this@ListJajananActivity, AddJajananActivity::class.java).also {
-                startActivity(it)
-            }
+            startActivity(Intent(this, AddJajananActivity::class.java))
         }
 
         observeViewModel()
@@ -63,10 +60,6 @@ class ListJajananActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.getAllJajanan().observe(this) {
-            Log.d(
-                "ListJajananActivity",
-                it.toString()
-            )
             it?.let {
                 loadList(it)
             }

@@ -53,8 +53,6 @@ class LoginActivity : AppCompatActivity() {
             .addCredentialOption(googleIdOption)
             .build()
 
-        Log.d(TAG, "ClientId: ${BuildConfig.CLIENT_ID}" + "\n725398887289-bk5shodgagpf776vjttqt2e1utoc2it9.apps.googleusercontent.com" )
-
         lifecycleScope.launch {
             try {
                 val result: GetCredentialResponse = credentialManager.getCredential( //import from androidx.CredentialManager

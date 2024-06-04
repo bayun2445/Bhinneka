@@ -1,11 +1,21 @@
 package com.bayu.bhinneka.ui.main
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.credentials.ClearCredentialStateRequest
@@ -13,8 +23,10 @@ import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityMainBinding
+import com.bayu.bhinneka.helper.IMAGE_URI_EXTRA
 import com.bayu.bhinneka.ui.list_jajanan.ListJajananActivity
 import com.bayu.bhinneka.ui.login.LoginActivity
+import com.bayu.bhinneka.ui.result.ResultActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -24,6 +36,37 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
     private lateinit var auth: FirebaseAuth
+
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val selectedImage = it.data?.data as Uri
+
+            val intent = Intent(this@MainActivity, ResultActivity::class.java)
+            intent.putExtra(IMAGE_URI_EXTRA, selectedImage)
+            startActivity(intent)
+        }
+    }
+
+    private val launcherIntentCamera = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val capturedImage = it.data?.extras?.get("data") as Bitmap
+            // Todo: make the image save to file and send it to result activity
+        }
+    }
+
+    private val launcherRequestPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        if (it) {
+            startCameraIntent()
+        } else {
+            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +88,57 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             return
+        }
+
+        setPopUpMenu()
+    }
+
+    private fun setPopUpMenu() {
+        val popupMenu = PopupMenu(
+            this@MainActivity,
+            binding.btnDetection,
+            Gravity.CENTER_HORIZONTAL
+        )
+
+        popupMenu.inflate(R.menu.select_image_meu)
+        popupMenu.menu.findItem(R.id.menu_camera)
+        popupMenu.setForceShowIcon(true)
+
+        popupMenu.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.menu_gallery -> {
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+
+                    val chooser = Intent.createChooser(intent, getString(R.string.choose_picture))
+
+                    launcherIntentGallery.launch(chooser)
+                    true
+                }
+
+                R.id.menu_camera -> {
+                    startCameraIntent()
+                    true
+                }
+
+                else -> {
+                    true
+                }
+            }
+        }
+
+        binding.btnDetection.setOnClickListener {
+            popupMenu.show()
+        }
+
+    }
+
+    private fun startCameraIntent() {
+        if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            launcherIntentCamera.launch(intent)
+        } else {
+            launcherRequestPermission.launch(Manifest.permission.CAMERA)
         }
     }
 
@@ -82,4 +176,5 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
 }
