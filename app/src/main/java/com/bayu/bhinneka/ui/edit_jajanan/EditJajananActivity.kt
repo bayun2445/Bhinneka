@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.data.model.Nutrition

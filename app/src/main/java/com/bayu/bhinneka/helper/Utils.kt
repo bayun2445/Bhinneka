@@ -11,7 +11,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 private const val FILENAME_FORMAT = "dd-MMM-yyyy"
