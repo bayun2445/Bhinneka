@@ -16,6 +16,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.credentials.ClearCredentialStateRequest
@@ -24,6 +25,8 @@ import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityMainBinding
 import com.bayu.bhinneka.helper.IMAGE_URI_EXTRA
+import com.bayu.bhinneka.helper.bitmapToFile
+import com.bayu.bhinneka.helper.uriToFile
 import com.bayu.bhinneka.ui.list_jajanan.ListJajananActivity
 import com.bayu.bhinneka.ui.login.LoginActivity
 import com.bayu.bhinneka.ui.result.ResultActivity
@@ -42,9 +45,9 @@ class MainActivity : AppCompatActivity() {
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             val selectedImage = it.data?.data as Uri
-
+            val imgFile = uriToFile(selectedImage, this@MainActivity)
             val intent = Intent(this@MainActivity, ResultActivity::class.java)
-            intent.putExtra(IMAGE_URI_EXTRA, selectedImage)
+            intent.putExtra(IMAGE_URI_EXTRA, imgFile.path.toUri())
             startActivity(intent)
         }
     }
@@ -54,7 +57,10 @@ class MainActivity : AppCompatActivity() {
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             val capturedImage = it.data?.extras?.get("data") as Bitmap
-            // Todo: make the image save to file and send it to result activity
+            val imgFile = bitmapToFile(capturedImage, this@MainActivity)
+            val intent = Intent(this@MainActivity, ResultActivity::class.java)
+            intent.putExtra(IMAGE_URI_EXTRA, imgFile?.path?.toUri())
+            startActivity(intent)
         }
     }
 
@@ -100,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             Gravity.CENTER_HORIZONTAL
         )
 
-        popupMenu.inflate(R.menu.select_image_meu)
+        popupMenu.inflate(R.menu.select_image_menu)
         popupMenu.menu.findItem(R.id.menu_camera)
         popupMenu.setForceShowIcon(true)
 
@@ -143,7 +149,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.top_bar_menu, menu)
+        menuInflater.inflate(R.menu.main_top_menu, menu)
         return true
     }
 

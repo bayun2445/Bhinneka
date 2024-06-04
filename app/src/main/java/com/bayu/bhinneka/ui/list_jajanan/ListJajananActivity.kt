@@ -48,8 +48,7 @@ class ListJajananActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.top_bar_menu, menu)
-        menu?.findItem(R.id.menu_edit)?.setVisible(false)
+        menuInflater.inflate(R.menu.common_top_menu, menu)
         return true
     }
 

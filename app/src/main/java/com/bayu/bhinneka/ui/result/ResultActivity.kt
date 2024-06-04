@@ -1,8 +1,9 @@
 package com.bayu.bhinneka.ui.result
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +15,6 @@ import com.bayu.bhinneka.helper.IMAGE_URI_EXTRA
 
 class ResultActivity : AppCompatActivity() {
 
-    private var image: Bitmap? = null
-
     private val binding by lazy {
         ActivityResultBinding.inflate(layoutInflater)
     }
@@ -25,29 +24,34 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        setSupportActionBar(binding.topBarMenu)
         supportActionBar?.title = getString(R.string.prediction_result)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        if (intent.data != null) {
-            val intentImageResult = intent.getByteArrayExtra(IMAGE_URI_EXTRA)
-            if (intentImageResult != null) {
-                image = BitmapFactory.decodeByteArray(
-                    intentImageResult,
-                    0,
-                    intentImageResult.size
-                )
-            }
+        if (intent.hasExtra(IMAGE_URI_EXTRA)) {
+            val intentImageResult = intent.extras?.get(IMAGE_URI_EXTRA) as Uri
+            Log.w(TAG, intentImageResult.toString())
+            binding.imgResult.setImageURI(intentImageResult)
         }
 
-        image?.let {
-            binding.imgResult.setImageBitmap(it)
-        }
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.common_top_menu, menu)
+        return true
+    }
 
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
 
+    companion object {
+        private val TAG = ResultActivity::class.java.simpleName
     }
 }

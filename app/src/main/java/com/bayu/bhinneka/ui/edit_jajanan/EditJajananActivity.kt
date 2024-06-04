@@ -1,8 +1,10 @@
 package com.bayu.bhinneka.ui.edit_jajanan
 
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,7 +21,7 @@ class EditJajananActivity : AppCompatActivity() {
         ActivityEditJajananBinding.inflate(layoutInflater)
     }
 
-    private lateinit var viewModel: EditJajananViewModel
+    private val viewModel: EditJajananViewModel by viewModels()
     private lateinit var jajananIntent: Jajanan
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +36,6 @@ class EditJajananActivity : AppCompatActivity() {
             insets
         }
 
-        viewModel = ViewModelProvider(this)[EditJajananViewModel::class.java]
-
         if (intent.hasExtra(JAJANAN_PARCELABLE_EXTRA)) {
             jajananIntent = intent.getParcelableExtra(JAJANAN_PARCELABLE_EXTRA)!!
         } else {
@@ -48,6 +48,16 @@ class EditJajananActivity : AppCompatActivity() {
         binding.btnUpdate.setOnClickListener {
             updateJajanan()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.common_top_menu, menu)
+        return true
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     private fun loadJajanan() {
@@ -85,10 +95,5 @@ class EditJajananActivity : AppCompatActivity() {
         }
 
         viewModel.updateJajanan(newJajanan)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
     }
 }
