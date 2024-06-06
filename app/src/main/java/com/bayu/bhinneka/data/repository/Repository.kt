@@ -4,7 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bayu.bhinneka.data.model.Jajanan
+import com.bayu.bhinneka.ui.login.LoginActivity
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -12,6 +16,24 @@ import com.google.firebase.database.database
 
 class Repository {
     private val database = Firebase.database.reference
+    private val auth = FirebaseAuth.getInstance()
+
+    fun getCurrentUser(): FirebaseUser? = auth.currentUser
+    fun signInWithGoogle(idToken: String, user: (FirebaseUser?) -> Unit) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("Google SignIn", "signInWithCredential:success")
+                    user(auth.currentUser)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("Goog leSignIn", "signInWithCredential:failure", it.exception)
+                    user(null)
+                }
+            }
+    }
 
     fun getAllJajanan(): LiveData<List<Jajanan>> {
         val liveData = MutableLiveData<List<Jajanan>>()
