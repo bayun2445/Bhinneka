@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bayu.bhinneka.data.model.Jajanan
-import com.bayu.bhinneka.ui.login.LoginActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DataSnapshot
@@ -18,6 +20,7 @@ class Repository {
     private val database = Firebase.database.reference
     private val auth = FirebaseAuth.getInstance()
 
+    // Authentications
     fun getCurrentUser(): FirebaseUser? = auth.currentUser
     fun signInWithGoogle(idToken: String, user: (FirebaseUser?) -> Unit) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -26,15 +29,97 @@ class Repository {
                 if (it.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("Google SignIn", "signInWithCredential:success")
-                    user(auth.currentUser)
+                    user(getCurrentUser())
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("Goog leSignIn", "signInWithCredential:failure", it.exception)
+                    Log.w("Google SignIn", "signInWithCredential:failure", it.exception)
                     user(null)
                 }
             }
     }
 
+    fun registerWithEmailAndPassword(
+        email: String,
+        password: String,
+        result: (user: FirebaseUser?, error: String?) -> Unit,
+    ) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("Email SignUp", "Success")
+                    result(getCurrentUser(), null)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("Email SignUp", "Failure:", it.exception)
+
+                    when (it.exception) {
+                        is FirebaseAuthInvalidCredentialsException -> {
+                            result(
+                                null,
+                                "Email atau password salah!",
+                            )
+                        }
+                        is FirebaseAuthUserCollisionException -> {
+                            result(
+                                null,
+                                "Email sudah terdaftar untuk akun lain!",
+                            )
+                        }
+                        else -> {
+                            result(
+                                null,
+                                "Unknown error",
+                            )
+                        }
+                    }
+                }
+            }
+    }
+
+    fun signInWithEmailAndPassword(
+        email: String,
+        password: String,
+        result: (user: FirebaseUser?, error: String?) -> Unit,
+    ) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("Email SignIn", "Success")
+                    result(getCurrentUser(), null)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("Email SignIn", "Failure:", it.exception)
+
+                    when (it.exception) {
+                        is FirebaseAuthInvalidCredentialsException -> {
+                            result(
+                                null,
+                                "Email atau password salah!",
+                            )
+                        }
+
+                        is FirebaseAuthInvalidUserException -> {
+                            result(
+                                null,
+                                "Email belum terdaftar!",
+                            )
+                        }
+
+                        else -> {
+                            result(
+                                null,
+                                "Unknown error",
+                            )
+                        }
+                    }
+                }
+            }
+    }
+
+
+    // Database
     fun getAllJajanan(): LiveData<List<Jajanan>> {
         val liveData = MutableLiveData<List<Jajanan>>()
 

@@ -69,4 +69,7 @@
     <string name="menu_gallery">Galeri</string>
     <string name="menu_camera">Kamera\n</string>
     <string name="choose_picture">Pilih Gambar</string>
+    <string name="error_password">Password minimal terdiri dari 8 karakter</string>
+    <string name="error_email">Format email invalid!</string>
+    <string name="click_to_register">Belum punya akun? Klik untuk registrasi.</string>
 </resources>

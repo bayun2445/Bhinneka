@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="32dp"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.register.RegisterActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_loading"
@@ -100,19 +101,5 @@
         app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
         app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
         app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
-
-    <TextView
-        android:id="@+id/txt_create_account"
-        style="@style/TextAppearance.Material3.BodyMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:textColor="?colorSecondary"
-        android:text="@string/click_to_register"
-        android:clickable="true"
-        app:layout_constraintStart_toStartOf="@+id/btn_sign_in_google"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in_google" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

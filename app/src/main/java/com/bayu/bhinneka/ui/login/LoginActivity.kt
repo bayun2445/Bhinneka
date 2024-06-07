@@ -15,14 +15,11 @@ import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.BuildConfig
 import com.bayu.bhinneka.databinding.ActivityLoginBinding
 import com.bayu.bhinneka.ui.main.MainActivity
+import com.bayu.bhinneka.ui.register.RegisterActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -37,17 +34,52 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.btnSignIn.setOnClickListener {
-            signIn()
-        }
+        setButtonsOnClickListener()
 
+        observeViewModel()
+
+    }
+
+    private fun observeViewModel() {
         viewModel.currentUser.observe(this) {
             updateUI(it)
         }
 
+        viewModel.message.observe(this) {
+            showToast(it)
+        }
     }
 
-    private fun signIn() {
+    private fun setButtonsOnClickListener() {
+        binding.btnSignInGoogle.setOnClickListener {
+            signInGoogle()
+        }
+
+        binding.btnSignIn.setOnClickListener {
+            signInEmail()
+        }
+
+        binding.txtCreateAccount.setOnClickListener {
+            startActivity(
+                Intent(this, RegisterActivity::class.java)
+            )
+        }
+    }
+
+    private fun signInEmail() {
+        if (binding.edLoginEmail.error == null
+            && binding.edLoginPassword.error == null) {
+
+            val email = binding.edLoginEmail.text.toString()
+            val password = binding.edLoginPassword.text.toString()
+
+            viewModel.signInWithEmail(email, password)
+        } else {
+            showToast("Field tidak boleh kosong!")
+        }
+    }
+
+    private fun signInGoogle() {
         val credentialManager = CredentialManager.create(this) //import from androidx.CredentialManager
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
@@ -97,10 +129,13 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
-            Toast.makeText(this, "Log In Berhasil!", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             finish()
         }
+    }
+
+    private fun showToast(text: String?) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
