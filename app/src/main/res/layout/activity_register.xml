@@ -8,6 +8,17 @@
     android:padding="32dp"
     tools:context=".ui.register.RegisterActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/top_bar_menu"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:theme="@style/Widget.Material3.Toolbar.Surface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_loading"
         android:layout_width="wrap_content"
@@ -50,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_banner">
 
         <com.bayu.bhinneka.component.CustomEditText
-            android:id="@+id/ed_login_email"
+            android:id="@+id/ed_signup_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
@@ -69,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/il_email">
 
         <com.bayu.bhinneka.component.CustomEditText
-            android:id="@+id/ed_login_password"
+            android:id="@+id/ed_signup_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
@@ -78,28 +89,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_sign_in"
+        android:id="@+id/btn_sign_up"
         style="@style/ThemeOverlay.Material3.Button.ElevatedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="?colorPrimary"
-        android:text="@string/sign_in"
+        android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="@+id/il_password"
         app:layout_constraintStart_toStartOf="@+id/il_password"
         app:layout_constraintTop_toBottomOf="@+id/il_password" />
-
-    <Button
-        android:id="@+id/btn_sign_in_google"
-        style="@style/ThemeOverlay.Material3.Button.ElevatedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
-        android:textColor="?colorPrimary"
-        android:text="@string/sign_in_google"
-        app:icon="@drawable/img_google"
-        app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
-        app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

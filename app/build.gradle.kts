@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.play.services.auth)
     implementation(libs.firebase.database.ktx)
-    implementation(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
 
     // Google
     implementation(libs.androidx.credentials)
@@ -75,6 +75,9 @@ dependencies {
     // TensorFlow Lite
     implementation(libs.tensorflow.lite.gpu)
     implementation(libs.tensorflow.lite.task.vision)
+    implementation(libs.tensorflow.lite.metadata)
+    implementation("org.tensorflow:tensorflow-lite:2.10.0")
+    implementation(libs.tensorflow.lite.support)
 
 
     testImplementation(libs.junit)

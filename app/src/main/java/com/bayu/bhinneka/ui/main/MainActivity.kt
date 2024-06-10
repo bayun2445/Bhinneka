@@ -16,7 +16,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.credentials.ClearCredentialStateRequest
@@ -24,7 +23,7 @@ import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityMainBinding
-import com.bayu.bhinneka.helper.IMAGE_URI_EXTRA
+import com.bayu.bhinneka.helper.IMAGE_EXTRA
 import com.bayu.bhinneka.helper.bitmapToFile
 import com.bayu.bhinneka.helper.uriToFile
 import com.bayu.bhinneka.ui.list_jajanan.ListJajananActivity
@@ -45,9 +44,9 @@ class MainActivity : AppCompatActivity() {
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             val selectedImage = it.data?.data as Uri
-            val imgFile = uriToFile(selectedImage, this@MainActivity)
+            val imgFile = uriToFile(selectedImage, this)
             val intent = Intent(this@MainActivity, ResultActivity::class.java)
-            intent.putExtra(IMAGE_URI_EXTRA, imgFile.path.toUri())
+            intent.putExtra(IMAGE_EXTRA, imgFile)
             startActivity(intent)
         }
     }
@@ -57,9 +56,9 @@ class MainActivity : AppCompatActivity() {
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             val capturedImage = it.data?.extras?.get("data") as Bitmap
-            val imgFile = bitmapToFile(capturedImage, this@MainActivity)
+            val imgFile = bitmapToFile(capturedImage, this)
             val intent = Intent(this@MainActivity, ResultActivity::class.java)
-            intent.putExtra(IMAGE_URI_EXTRA, imgFile?.path?.toUri())
+            intent.putExtra(IMAGE_EXTRA, imgFile)
             startActivity(intent)
         }
     }

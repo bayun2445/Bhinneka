@@ -72,4 +72,5 @@
     <string name="error_password">Password minimal terdiri dari 8 karakter</string>
     <string name="error_email">Format email invalid!</string>
     <string name="click_to_register">Belum punya akun? Klik untuk registrasi.</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
