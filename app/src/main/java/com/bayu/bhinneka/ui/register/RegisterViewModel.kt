@@ -11,12 +11,20 @@ class RegisterViewModel: ViewModel() {
     private val repository = Repository()
 
     private val _currentUser = MutableLiveData<FirebaseUser?>()
+    private val _message = MutableLiveData<String?>()
 
     val currentUser: LiveData<FirebaseUser?> = _currentUser
+    val message: LiveData<String?> = _message
 
     fun registerWithEmail(email: String, password: String) {
         repository.registerWithEmailAndPassword(email, password) { user, error ->
             _currentUser.value = user
+
+            if (error.isNullOrEmpty()) {
+                _message.value = error
+            } else {
+                _message.value = "Login berhasil!"
+            }
         }
     }
 }

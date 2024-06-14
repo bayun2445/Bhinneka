@@ -38,6 +38,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        style="@style/TextAppearance.Material3.HeadlineLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="24dp"
+        android:text="@string/sign_in"
+        android:textColor="?colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/il_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/il_email"
         android:layout_width="match_parent"

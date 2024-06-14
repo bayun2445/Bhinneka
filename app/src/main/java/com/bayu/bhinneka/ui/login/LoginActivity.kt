@@ -13,6 +13,7 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.BuildConfig
+import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityLoginBinding
 import com.bayu.bhinneka.ui.main.MainActivity
 import com.bayu.bhinneka.ui.register.RegisterActivity
@@ -67,20 +68,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signInEmail() {
-        if (binding.edLoginEmail.error == null
-            && binding.edLoginPassword.error == null) {
+        if (!binding.edLoginEmail.text.isNullOrEmpty()
+            && !binding.edLoginPassword.text.isNullOrEmpty()) {
 
             val email = binding.edLoginEmail.text.toString()
             val password = binding.edLoginPassword.text.toString()
 
             viewModel.signInWithEmail(email, password)
         } else {
-            showToast("Field tidak boleh kosong!")
+            showToast(getString(R.string.empty_field_alert))
         }
     }
 
     private fun signInGoogle() {
-        val credentialManager = CredentialManager.create(this) //import from androidx.CredentialManager
+        val credentialManager = CredentialManager.create(this)
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
             .setServerClientId(BuildConfig.CLIENT_ID)
@@ -91,20 +92,19 @@ class LoginActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val result: GetCredentialResponse = credentialManager.getCredential( //import from androidx.CredentialManager
+                val result: GetCredentialResponse = credentialManager.getCredential(
                     request = request,
                     context = this@LoginActivity,
                 )
 
                 handleSignIn(result)
-            } catch (e: GetCredentialException) { //import from androidx.CredentialManager
+            } catch (e: GetCredentialException) {
                 Log.d("Error", e.message.toString())
             }
         }
     }
 
     private fun handleSignIn(result: GetCredentialResponse) {
-        // Handle the successfully returned credential.
         when (val credential = result.credential) {
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
@@ -115,12 +115,10 @@ class LoginActivity : AppCompatActivity() {
                         Log.e(TAG, "Received an invalid google id token response", e)
                     }
                 } else {
-                    // Catch any unrecognized custom credential type here.
                     Log.e(TAG, "Unexpected type of credential")
                 }
             }
             else -> {
-                // Catch any unrecognized credential type here.
                 Log.e(TAG, "Unexpected type of credential")
             }
         }

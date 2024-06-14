@@ -22,16 +22,16 @@ class Repository {
 
     // Authentications
     fun getCurrentUser(): FirebaseUser? = auth.currentUser
+
+    fun getUID(): String? = getCurrentUser()?.uid
     fun signInWithGoogle(idToken: String, user: (FirebaseUser?) -> Unit) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
                     Log.d("Google SignIn", "signInWithCredential:success")
                     user(getCurrentUser())
                 } else {
-                    // If sign in fails, display a message to the user.
                     Log.w("Google SignIn", "signInWithCredential:failure", it.exception)
                     user(null)
                 }
