@@ -46,7 +46,8 @@
             android:exported="true" />
         <activity
             android:name=".ui.add_jajanan.AddJajananActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

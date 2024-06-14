@@ -2,6 +2,7 @@ package com.bayu.bhinneka.ui.add_jajanan
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,7 @@ class AddJajananActivity : AppCompatActivity() {
         setSupportActionBar(binding.topBarMenu)
         supportActionBar?.title = "Add Jajanan"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
