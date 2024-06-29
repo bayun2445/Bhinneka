@@ -13,8 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bayu.bhinneka.R
+import com.bayu.bhinneka.data.model.History
+import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.databinding.ActivityResultBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
+import com.bayu.bhinneka.helper.generateId
+import com.bayu.bhinneka.helper.timeStamp
 import java.io.File
 
 class ResultActivity : AppCompatActivity() {
@@ -62,17 +66,48 @@ class ResultActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.isSuccessful.observe(this) {
-            imgBitmap?.let { bitmap -> viewModel.classifyImage(bitmap) }
+            imgBitmap?.let {
+                bitmap -> viewModel.classifyImage(bitmap)
+            }
         }
 
-        viewModel.result.observe(this) {
-            binding.txtLabelResult.text = it
+        viewModel.result.observe(this) { name ->
+            binding.txtLabelResult.text = name
+            if (name != null) {
+                viewModel.getJajanan(name)
+                saveHistory(name)
+            }
         }
 
+        // Removable
         viewModel.output.observe(this) {
             binding.txtOutput.text = it
         }
+
+        viewModel.jajananResult.observe(this) { jajanan ->
+            jajanan?.let {
+                loadJajanan(it)
+            }
+        }
     }
+
+    private fun saveHistory(name: String) {
+        val historyId = generateId()
+
+        val newHistory = History(
+            id = historyId,
+            date = timeStamp,
+            resultJajananName = name,
+            imgPath = null
+        )
+
+        viewModel.addNewHistory(newHistory)
+    }
+
+    private fun loadJajanan(jajanan: Jajanan) {
+        // Todo: set update UI to load jajanan
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.common_top_menu, menu)

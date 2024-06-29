@@ -18,10 +18,12 @@ class ResultViewModel: ViewModel() {
     private val _isSuccessful = MutableLiveData<Boolean?>()
     private val _result = MutableLiveData<String?>()
     private val _output = MutableLiveData<String?>()
+    private val _jajananResult = MutableLiveData<Jajanan?>()
 
     val isSuccessful: LiveData<Boolean?> = _isSuccessful
     val result: LiveData<String?> = _result
     val output: LiveData<String?> = _output
+    val jajananResult: LiveData<Jajanan?> = _jajananResult
 
 
     fun init(context: Context) {
@@ -39,8 +41,8 @@ class ResultViewModel: ViewModel() {
         _output.value = resultArray[1]
     }
 
-    fun getJajanan(name: String): LiveData<Jajanan?> {
-        return repository.getJajanan(name)
+    fun getJajanan(name: String) {
+        _jajananResult.value = repository.getJajanan(name)
     }
 
     fun addNewHistory(history: History) {

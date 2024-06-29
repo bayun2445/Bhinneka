@@ -12,6 +12,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.Random
 
 private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
@@ -58,4 +59,12 @@ fun uriToFile(selectedImg: Uri, context: Context): File {
 fun createCustomTempFile(context: Context): File {
     val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile("image_$timeStamp", ".jpg", storageDir)
+}
+
+fun generateId(length: Int = 4): String {
+    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    val random = Random()
+    return (1..length)
+        .map { chars[random.nextInt(chars.length)] }
+        .joinToString("")
 }

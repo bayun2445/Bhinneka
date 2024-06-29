@@ -156,20 +156,20 @@ class Repository {
         return liveData
     }
 
-    fun getJajanan(name: String): LiveData<Jajanan?> {
-        val jajananLiveData = MutableLiveData<Jajanan?>()
+    fun getJajanan(name: String): Jajanan? {
+        var jajanan: Jajanan? = null
 
         database.child(CHILD_JAJANAN).child(name).get()
             .addOnSuccessListener {
-                val jajanan = it.getValue(Jajanan::class.java)
+                val jajananData = it.getValue(Jajanan::class.java)
 
-                jajananLiveData.value = jajanan
+                jajanan = jajananData
             }
             .addOnFailureListener {
                 Log.e(TAG, it.message.toString())
             }
 
-        return jajananLiveData
+        return jajanan
     }
 
     fun addNewJajanan(jajanan: Jajanan, isSuccessful: (Boolean) -> Unit) {
