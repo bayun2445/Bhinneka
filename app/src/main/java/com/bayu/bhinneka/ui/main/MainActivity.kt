@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
@@ -24,6 +25,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityMainBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
+import com.bayu.bhinneka.helper.TFLiteHelper
 import com.bayu.bhinneka.helper.bitmapToFile
 import com.bayu.bhinneka.helper.uriToFile
 import com.bayu.bhinneka.ui.list_jajanan.ListJajananActivity
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-    private lateinit var auth: FirebaseAuth
+    private val viewModel: MainViewModel by viewModels()
 
     private val launcherIntentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -85,15 +87,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        auth = FirebaseAuth.getInstance()
 
-        val currentUser = auth.currentUser
-
-        if (currentUser == null) {
+        if (viewModel.getCurrentUser() == null) {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             return
         }
+
+        binding.txtUsername.text = "Selamat datang, ${ viewModel.getCurrentUser()?.email }"
 
         setPopUpMenu()
     }
@@ -175,7 +176,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val credentialManager = CredentialManager.create(this@MainActivity)
 
-            auth.signOut()
+            viewModel.signOut()
             credentialManager.clearCredentialState(ClearCredentialStateRequest())
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
             finish()

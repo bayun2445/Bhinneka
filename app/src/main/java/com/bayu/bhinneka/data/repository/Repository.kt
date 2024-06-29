@@ -23,7 +23,6 @@ class Repository {
     // Authentications
     fun getCurrentUser(): FirebaseUser? = auth.currentUser
 
-    fun getUID(): String? = getCurrentUser()?.uid
     fun signInWithGoogle(idToken: String, user: (FirebaseUser?) -> Unit) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
@@ -116,6 +115,10 @@ class Repository {
                     }
                 }
             }
+    }
+
+    fun signOut() {
+        auth.signOut()
     }
 
 

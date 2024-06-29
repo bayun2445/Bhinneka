@@ -21,7 +21,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/container_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="260dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="20dp"
         android:radius="10dp"
@@ -47,7 +47,29 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2">
+                android:padding="8dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_label_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prediction_result"
+                    style="@style/TextAppearance.AppCompat.Large"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/output"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:textStyle="italic|bold"/>
+
+                <TextView
+                    android:id="@+id/txt_output"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
 
             </LinearLayout>
 

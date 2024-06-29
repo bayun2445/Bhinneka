@@ -73,4 +73,8 @@
     <string name="error_email">Format email invalid!</string>
     <string name="click_to_register">Belum punya akun? Klik untuk registrasi.</string>
     <string name="sign_up">Sign Up</string>
+    <string name="empty_field_alert">Field tidak boleh kosong!</string>
+    <string name="no_history">Riwayat belum ada.</string>
+    <string name="username">Username</string>
+    <string name="output">OutPut:</string>
 </resources>

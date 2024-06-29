@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.firebase.database.ktx)
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.ml.modeldownloader)
 
     // Google
     implementation(libs.androidx.credentials)
@@ -73,11 +74,10 @@ dependencies {
     implementation(libs.circleimageview)
 
     // TensorFlow Lite
+    implementation(libs.tensorflow.lite)
     implementation(libs.tensorflow.lite.gpu)
-    implementation(libs.tensorflow.lite.task.vision)
-    implementation(libs.tensorflow.lite.metadata)
-    implementation("org.tensorflow:tensorflow-lite:2.10.0")
     implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
 
 
     testImplementation(libs.junit)
