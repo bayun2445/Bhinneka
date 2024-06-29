@@ -58,15 +58,6 @@ class ResultActivity : AppCompatActivity() {
 
         observeViewModel()
 
-//        viewModel.initModel(this)
-//        viewModel.classifyImageData(imgBitmap!!)
-//
-//        viewModel.result.observe(this) {
-//            binding.txtLabelResult.text = it?.get(0)
-//            binding.txtOutput.text = it?.get(1)
-//        }
-
-
     }
 
     private fun observeViewModel() {

@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bayu.bhinneka.data.model.History
+import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.data.repository.Repository
 import com.bayu.bhinneka.helper.TFLiteHelper
 
@@ -35,5 +37,13 @@ class ResultViewModel: ViewModel() {
         val resultArray = tfLiteHelper.showResult()
         _result.value = resultArray[0]
         _output.value = resultArray[1]
+    }
+
+    fun getJajanan(name: String): LiveData<Jajanan?> {
+        return repository.getJajanan(name)
+    }
+
+    fun addNewHistory(history: History) {
+        repository.addNewHistory(history)
     }
 }

@@ -3,6 +3,7 @@ package com.bayu.bhinneka.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.data.model.Jajanan
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +24,12 @@ class Repository {
     // Authentications
     fun getCurrentUser(): FirebaseUser? = auth.currentUser
 
-    fun signInWithGoogle(idToken: String, user: (FirebaseUser?) -> Unit) {
+    private fun getUID(): String = getCurrentUser()?.uid!!
+
+    fun signInWithGoogle(
+        idToken: String,
+        user: (FirebaseUser?) -> Unit
+    ) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener {
@@ -123,6 +129,8 @@ class Repository {
 
 
     // Database
+
+    //--Jajanan
     fun getAllJajanan(): LiveData<List<Jajanan>> {
         val liveData = MutableLiveData<List<Jajanan>>()
 
@@ -147,6 +155,23 @@ class Repository {
 
         return liveData
     }
+
+    fun getJajanan(name: String): LiveData<Jajanan?> {
+        val jajananLiveData = MutableLiveData<Jajanan?>()
+
+        database.child(CHILD_JAJANAN).child(name).get()
+            .addOnSuccessListener {
+                val jajanan = it.getValue(Jajanan::class.java)
+
+                jajananLiveData.value = jajanan
+            }
+            .addOnFailureListener {
+                Log.e(TAG, it.message.toString())
+            }
+
+        return jajananLiveData
+    }
+
     fun addNewJajanan(jajanan: Jajanan, isSuccessful: (Boolean) -> Unit) {
         database.child(CHILD_JAJANAN).child(jajanan.name).setValue(jajanan)
             .addOnCompleteListener { task ->
@@ -167,7 +192,41 @@ class Repository {
                 isSuccessful(task.isSuccessful)
             }
     }
+
+    //--History
+
+    fun getAllHistory(): LiveData<List<History>> {
+        val liveData = MutableLiveData<List<History>>()
+
+        database.child(CHILD_JAJANAN).child(getUID()).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val historyList = mutableListOf<History>()
+                for (child in snapshot.children) {
+                    val history = child.getValue(History::class.java)
+                    if (history != null) {
+                        historyList.add(history)
+                    }
+                }
+
+                liveData.value = historyList
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "Failed to load history List: ", error.toException())
+            }
+
+        })
+
+        return liveData
+    }
+
+    fun addNewHistory(history: History) {
+        database.child(CHILD_HISTORY).child(getUID()).child(history.id).setValue(history)
+    }
+
     companion object {
+        private const val TAG = "Repository"
         private const val CHILD_JAJANAN = "jajanan"
+        private const val CHILD_HISTORY = "history"
     }
 }
