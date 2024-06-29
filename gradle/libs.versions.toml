@@ -24,6 +24,7 @@ googleid = "1.1.0"
 tensorflowLite = "2.12.0"
 tensorflowLiteMetadata = "0.1.0"
 tensorflowLiteSupport = "0.4.3"
+googleGmsGoogleServices = "4.4.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "f
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-database-ktx = { module = "com.google.firebase:firebase-database-ktx", version.ref = "firebaseDatabase" }
 firebase-ml-modeldownloader = { module = "com.google.firebase:firebase-ml-modeldownloader" }
+firebase-storage = { module = "com.google.firebase:firebase-storage" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -57,4 +59,5 @@ tensorflow-lite-support = { module = "org.tensorflow:tensorflow-lite-support", v
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

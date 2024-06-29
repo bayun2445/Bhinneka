@@ -16,10 +16,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import com.google.firebase.storage.storage
 
 class Repository {
     private val database = Firebase.database.reference
     private val auth = FirebaseAuth.getInstance()
+    private val storage = Firebase.storage.reference
 
     // Authentications
     fun getCurrentUser(): FirebaseUser? = auth.currentUser

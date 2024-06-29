@@ -17,7 +17,7 @@ class JajananListAdapter: RecyclerView.Adapter<JajananListAdapter.JajananViewHol
     private lateinit var clicked: ItemClick
 
     interface ItemClick {
-        fun deleteOnClick(position: Int)
+        fun deleteClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JajananViewHolder {
@@ -56,7 +56,7 @@ class JajananListAdapter: RecyclerView.Adapter<JajananListAdapter.JajananViewHol
 
             init {
                 itemBinding.btnDelete.setOnClickListener {
-                    itemClick.deleteOnClick(adapterPosition)
+                    itemClick.deleteClick(adapterPosition)
                 }
             }
 

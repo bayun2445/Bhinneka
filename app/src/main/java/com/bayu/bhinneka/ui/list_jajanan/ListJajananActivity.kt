@@ -77,7 +77,7 @@ class ListJajananActivity : AppCompatActivity() {
 
         adapter.setDeleteButtonOnCLickListener(
             object : JajananListAdapter.ItemClick {
-                override fun deleteOnClick(position: Int) {
+                override fun deleteClick(position: Int) {
                     val selectedJajanan = listJajanan[position]
 
                     val alertBuilder = AlertDialog.Builder(this@ListJajananActivity)
