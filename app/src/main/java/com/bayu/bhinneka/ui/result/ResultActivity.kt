@@ -15,7 +15,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityResultBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
-import com.bayu.bhinneka.helper.TFLiteHelper
 import java.io.File
 
 class ResultActivity : AppCompatActivity() {

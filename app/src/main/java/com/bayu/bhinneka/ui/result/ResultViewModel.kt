@@ -2,18 +2,11 @@ package com.bayu.bhinneka.ui.result
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bayu.bhinneka.data.repository.Repository
 import com.bayu.bhinneka.helper.TFLiteHelper
-import com.bayu.bhinneka.ml.ModelMobilenetv3smallV1
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 
 class ResultViewModel: ViewModel() {
 

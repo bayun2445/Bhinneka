@@ -3,11 +3,8 @@ package com.bayu.bhinneka.ui.register
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityRegisterBinding
 import com.bayu.bhinneka.ui.main.MainActivity

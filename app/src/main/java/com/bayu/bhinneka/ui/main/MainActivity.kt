@@ -25,13 +25,11 @@ import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityMainBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
-import com.bayu.bhinneka.helper.TFLiteHelper
 import com.bayu.bhinneka.helper.bitmapToFile
 import com.bayu.bhinneka.helper.uriToFile
 import com.bayu.bhinneka.ui.list_jajanan.ListJajananActivity
 import com.bayu.bhinneka.ui.login.LoginActivity
 import com.bayu.bhinneka.ui.result.ResultActivity
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
