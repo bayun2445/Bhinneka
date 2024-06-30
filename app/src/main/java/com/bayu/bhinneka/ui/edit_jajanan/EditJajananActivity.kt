@@ -92,7 +92,8 @@ class EditJajananActivity : AppCompatActivity() {
                     protein = txtProtein.text.toString().toDouble(),
                     natrium = txtNatrium.text.toString().toDouble(),
                     kalium = txtKalium.text.toString().toDouble()
-                )
+                ),
+                imagePath =  null
             )
         }
 

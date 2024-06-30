@@ -1,23 +1,45 @@
 package com.bayu.bhinneka.ui.add_jajanan
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.Visibility
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.data.model.Nutrition
 import com.bayu.bhinneka.databinding.ActivityAddJajananBinding
+import com.bayu.bhinneka.helper.IMAGE_EXTRA
+import com.bayu.bhinneka.helper.uriToFile
+import com.bayu.bhinneka.ui.result.ResultActivity
 
 class AddJajananActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityAddJajananBinding.inflate(layoutInflater)
+    }
+
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val selectedImage = it.data?.data as Uri
+            binding.imgJajanan.setImageURI(selectedImage)
+            binding.imgJajanan.visibility = View.VISIBLE
+        }
     }
 
     private lateinit var viewModel: AddJajananViewModel
@@ -42,7 +64,16 @@ class AddJajananActivity : AppCompatActivity() {
         observeViewModel()
 
         binding.btnPost.setOnClickListener {
-            postJajanan()
+            uploadJajananImage()
+        }
+
+        binding.btnUploadImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+
+            val chooser = Intent.createChooser(intent, getString(R.string.choose_picture))
+
+            launcherIntentGallery.launch(chooser)
         }
     }
 
@@ -65,9 +96,27 @@ class AddJajananActivity : AppCompatActivity() {
                 Toast.makeText(this, "Gagal", Toast.LENGTH_SHORT).show()
             }
         }
+
+        viewModel.imagePath.observe(this) {
+            if (!it.isNullOrEmpty()) {
+                postJajanan(it)
+            }
+        }
     }
 
-    private fun postJajanan() {
+    private fun uploadJajananImage() {
+        if (binding.imgJajanan.isVisible) {
+            binding.imgJajanan.isDrawingCacheEnabled = true
+            binding.imgJajanan.buildDrawingCache()
+            val bitmap = binding.imgJajanan.drawable.toBitmap()
+
+            viewModel.uploadImage(bitmap, "img-${binding.txtName.text.toString()}")
+        } else {
+            postJajanan(null)
+        }
+    }
+
+    private fun postJajanan(imagePath: String?) {
 
         var newJajanan: Jajanan
 
@@ -83,7 +132,8 @@ class AddJajananActivity : AppCompatActivity() {
                     protein = txtProtein.text.toString().toDouble(),
                     natrium = txtNatrium.text.toString().toDouble(),
                     kalium = txtKalium.text.toString().toDouble()
-                )
+                ),
+                imagePath = imagePath
             )
         }
 

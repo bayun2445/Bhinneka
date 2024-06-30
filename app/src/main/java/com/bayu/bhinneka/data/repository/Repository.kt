@@ -1,5 +1,6 @@
 package com.bayu.bhinneka.data.repository
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.storage.storage
+import java.io.ByteArrayOutputStream
 
 class Repository {
     private val database = Firebase.database.reference
@@ -226,9 +228,27 @@ class Repository {
         database.child(CHILD_HISTORY).child(getUID()).child(history.id).setValue(history)
     }
 
+    //--Storage
+
+    fun uploadJajananImage(
+        bitmap: Bitmap,
+        name: String,
+        result: (Boolean, String?) -> Unit
+    ) {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        val data = outputStream.toByteArray()
+
+        storage.child(CHILD_STORAGE_ASSET).child(name).putBytes(data)
+            .addOnCompleteListener {
+                result(it.isSuccessful, it.result.metadata?.path)
+            }
+    }
+
     companion object {
         private const val TAG = "Repository"
         private const val CHILD_JAJANAN = "jajanan"
         private const val CHILD_HISTORY = "history"
+        private const val CHILD_STORAGE_ASSET = "assets"
     }
 }
