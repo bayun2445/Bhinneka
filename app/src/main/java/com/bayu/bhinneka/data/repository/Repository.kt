@@ -239,9 +239,20 @@ class Repository {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
         val data = outputStream.toByteArray()
 
-        storage.child(CHILD_STORAGE_ASSET).child(name).putBytes(data)
+        val ref = storage.child(CHILD_STORAGE_ASSET).child(name)
+        val uploadTask = ref.putBytes(data)
+
+        uploadTask
+            .continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                ref.downloadUrl
+            }
             .addOnCompleteListener {
-                result(it.isSuccessful, it.result.metadata?.path)
+                result(it.isSuccessful, it.result.toString())
             }
     }
 
