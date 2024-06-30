@@ -77,4 +77,5 @@
     <string name="no_history">Riwayat belum ada.</string>
     <string name="username">Username</string>
     <string name="output">OutPut:</string>
+    <string name="upload_image">Upload Gambar</string>
 </resources>
