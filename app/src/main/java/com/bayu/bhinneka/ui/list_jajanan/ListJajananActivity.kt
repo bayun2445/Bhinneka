@@ -81,12 +81,12 @@ class ListJajananActivity : AppCompatActivity() {
                     val selectedJajanan = listJajanan[position]
 
                     val alertBuilder = AlertDialog.Builder(this@ListJajananActivity)
-                        .setTitle("Delete Jajanan")
-                        .setMessage("Anda yakin akan menghapus data ${selectedJajanan.name}?")
-                        .setPositiveButton("Hapus") { _, _ ->
+                        .setTitle(getString(R.string.delete_jajanan))
+                        .setMessage(getString(R.string.delete_prompt, selectedJajanan.name))
+                        .setPositiveButton(getString(R.string.delete)) { _, _ ->
                             viewModel.deleteJajanan(selectedJajanan)
                         }
-                        .setNegativeButton("Batal") { dialog, _ ->
+                        .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                             dialog.dismiss()
                         }
 

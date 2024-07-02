@@ -10,6 +10,7 @@ import com.bayu.bhinneka.databinding.ItemListJajananBinding
 import com.bayu.bhinneka.helper.DiffCallback
 import com.bayu.bhinneka.helper.JAJANAN_PARCELABLE_EXTRA
 import com.bayu.bhinneka.ui.edit_jajanan.EditJajananActivity
+import com.bumptech.glide.Glide
 
 class JajananListAdapter: RecyclerView.Adapter<JajananListAdapter.JajananViewHolder>() {
 
@@ -62,6 +63,13 @@ class JajananListAdapter: RecyclerView.Adapter<JajananListAdapter.JajananViewHol
 
             fun bind(jajanan: Jajanan) {
                 itemBinding.txtJajananName.text = jajanan.name
+                jajanan.imagePath?.let {
+                    Glide.with(itemView.context)
+                        .load(it)
+                        .centerCrop()
+                        .into(itemBinding.imgJajananPicture)
+                }
+
                 itemView.setOnClickListener{
                     val intent = Intent(itemView.context, EditJajananActivity::class.java)
                     intent.putExtra(JAJANAN_PARCELABLE_EXTRA, jajanan)

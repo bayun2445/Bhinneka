@@ -78,4 +78,8 @@
     <string name="username">Username</string>
     <string name="output">OutPut:</string>
     <string name="upload_image">Upload Gambar</string>
+    <string name="delete_jajanan">Hapus Jajanan</string>
+    <string name="delete_prompt">Anda yakin akan menghapus data %1$s?</string>
+    <string name="delete">Hapus</string>
+    <string name="cancel">Batal</string>
 </resources>

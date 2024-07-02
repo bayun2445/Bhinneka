@@ -21,9 +21,11 @@ class ListJajananViewModel: ViewModel() {
     }
     fun deleteJajanan(jajanan: Jajanan) {
         _isLoading.value = true
-        return repository.deleteJajanan(jajanan) {
+        repository.deleteJajanan(jajanan) {
             _isLoading.value = false
             _isSuccessful.value = it
         }
+
+        repository.deleteJajananImage("img-${jajanan.name}")
     }
 }

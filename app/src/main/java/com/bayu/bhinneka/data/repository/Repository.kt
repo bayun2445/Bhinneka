@@ -256,6 +256,11 @@ class Repository {
             }
     }
 
+    fun deleteJajananImage(name: String) {
+        storage.child(CHILD_STORAGE_ASSET).child(name)
+            .delete()
+    }
+
     companion object {
         private const val TAG = "Repository"
         private const val CHILD_JAJANAN = "jajanan"
