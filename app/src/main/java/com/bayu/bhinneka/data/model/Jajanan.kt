@@ -16,6 +16,6 @@ data class Jajanan(
         "",
         "",
         Nutrition(),
-        ""
+        null
     )
 }

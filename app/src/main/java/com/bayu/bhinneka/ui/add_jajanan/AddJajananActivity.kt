@@ -106,8 +106,8 @@ class AddJajananActivity : AppCompatActivity() {
 
     private fun uploadJajananImage() {
         if (binding.imgJajanan.isVisible) {
-            binding.imgJajanan.isDrawingCacheEnabled = true
-            binding.imgJajanan.buildDrawingCache()
+//            binding.imgJajanan.isDrawingCacheEnabled = true
+//            binding.imgJajanan.buildDrawingCache()
             val bitmap = binding.imgJajanan.drawable.toBitmap()
 
             viewModel.uploadImage(bitmap, "img-${binding.txtName.text.toString()}")
