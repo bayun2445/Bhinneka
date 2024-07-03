@@ -141,6 +141,8 @@ class Repository {
         database.child(CHILD_JAJANAN).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val jajananList = mutableListOf<Jajanan>()
+                Log.d(TAG, getUID())
+                Log.d(TAG, snapshot.value.toString())
                 for (child in snapshot.children) {
                     val jajanan = child.getValue(Jajanan::class.java)
                     if (jajanan != null) {
@@ -199,13 +201,16 @@ class Repository {
 
     //--History
 
-    fun getAllHistory(): LiveData<List<History>> {
+    fun getAllHistory(): LiveData<List<History>?> {
         val liveData = MutableLiveData<List<History>>()
 
-        database.child(CHILD_JAJANAN).child(getUID()).addValueEventListener(object : ValueEventListener {
+        database.child(CHILD_HISTORY).child(getUID()).orderByChild("date").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val historyList = mutableListOf<History>()
+                Log.d(TAG, getUID())
+                Log.d(TAG, snapshot.value.toString())
                 for (child in snapshot.children) {
+                    Log.d(TAG, child.value.toString())
                     val history = child.getValue(History::class.java)
                     if (history != null) {
                         historyList.add(history)

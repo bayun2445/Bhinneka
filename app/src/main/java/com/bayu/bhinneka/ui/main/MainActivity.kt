@@ -8,9 +8,11 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,7 +24,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bayu.bhinneka.R
+import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.databinding.ActivityMainBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
 import com.bayu.bhinneka.helper.bitmapToFile
@@ -85,6 +90,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        binding.rvListHistory.layoutManager = LinearLayoutManager(this)
 
         if (viewModel.getCurrentUser() == null) {
             startActivity(Intent(this, LoginActivity::class.java))
@@ -92,9 +98,27 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        binding.txtUsername.text = "Selamat datang, ${ viewModel.getCurrentUser()?.email }"
+        binding.txtUsername.text = getString(R.string.welcome, viewModel.getCurrentUser()?.email)
 
         setPopUpMenu()
+
+        viewModel.getAllHistory().observe(this) {
+            if (!it.isNullOrEmpty()) {
+                binding.txtNoHistory.visibility = View.GONE
+                loadHistoryList(it)
+            }
+        }
+    }
+
+    private fun loadHistoryList(histories: List<History>) {
+        val historyAdapter = HistoryListAdapter()
+        historyAdapter.setList(histories)
+
+        binding.rvListHistory.apply {
+            adapter = historyAdapter
+            setHasFixedSize(false)
+            visibility = View.VISIBLE
+        }
     }
 
     private fun setPopUpMenu() {

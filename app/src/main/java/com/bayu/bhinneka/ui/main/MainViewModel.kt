@@ -17,7 +17,7 @@ class MainViewModel: ViewModel() {
         repository.signOut()
     }
 
-    fun getAllHistory(): LiveData<List<History>> {
+    fun getAllHistory(): LiveData<List<History>?> {
         return repository.getAllHistory()
     }
 }

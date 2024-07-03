@@ -82,4 +82,5 @@
     <string name="delete_prompt">Anda yakin akan menghapus data %1$s?</string>
     <string name="delete">Hapus</string>
     <string name="cancel">Batal</string>
+    <string name="welcome">Selamat datang, %1$s</string>
 </resources>

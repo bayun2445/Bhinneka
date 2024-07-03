@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.databinding.ItemListJajananBinding
-import com.bayu.bhinneka.helper.DiffCallback
+import com.bayu.bhinneka.helper.JajananDiffCallback
 import com.bayu.bhinneka.helper.JAJANAN_PARCELABLE_EXTRA
 import com.bayu.bhinneka.ui.edit_jajanan.EditJajananActivity
 import com.bumptech.glide.Glide
@@ -41,7 +41,7 @@ class JajananListAdapter: RecyclerView.Adapter<JajananListAdapter.JajananViewHol
     }
 
     fun setList(listJajanan: List<Jajanan>) {
-        val diffCallback = DiffCallback(this.itemJajananList, listJajanan)
+        val diffCallback = JajananDiffCallback(this.itemJajananList, listJajanan)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         this.itemJajananList.clear()
         this.itemJajananList.addAll(listJajanan)
@@ -52,8 +52,10 @@ class JajananListAdapter: RecyclerView.Adapter<JajananListAdapter.JajananViewHol
         this.clicked = clicked
     }
 
-    inner class JajananViewHolder(private val itemBinding: ItemListJajananBinding, private val itemClick: ItemClick):
-        RecyclerView.ViewHolder(itemBinding.root) {
+    inner class JajananViewHolder(
+        private val itemBinding: ItemListJajananBinding,
+        private val itemClick: ItemClick
+    ): RecyclerView.ViewHolder(itemBinding.root) {
 
             init {
                 itemBinding.btnDelete.setOnClickListener {

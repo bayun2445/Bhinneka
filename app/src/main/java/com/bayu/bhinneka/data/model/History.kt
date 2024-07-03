@@ -1,8 +1,19 @@
 package com.bayu.bhinneka.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class History(
-    var id: String,
-    var date: String? = null,
-    var resultJajananName: String? = null,
-    var imgPath: String? = null,
-)
+    val id: String,
+    val timeStamp: Long,
+    val resultJajananName: String,
+    val imgPath: String?,
+) : Parcelable {
+    constructor() : this(
+        "",
+        0,
+        "",
+        ""
+    )
+}

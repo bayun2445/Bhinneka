@@ -18,7 +18,6 @@ import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.databinding.ActivityResultBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
 import com.bayu.bhinneka.helper.generateId
-import com.bayu.bhinneka.helper.timeStamp
 import java.io.File
 
 class ResultActivity : AppCompatActivity() {
@@ -96,7 +95,7 @@ class ResultActivity : AppCompatActivity() {
 
         val newHistory = History(
             id = historyId,
-            date = timeStamp,
+            timeStamp = System.currentTimeMillis(),
             resultJajananName = name,
             imgPath = null
         )
