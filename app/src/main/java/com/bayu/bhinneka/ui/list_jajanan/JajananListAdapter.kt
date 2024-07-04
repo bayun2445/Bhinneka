@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.databinding.ItemListJajananBinding
-import com.bayu.bhinneka.helper.JajananDiffCallback
 import com.bayu.bhinneka.helper.JAJANAN_PARCELABLE_EXTRA
+import com.bayu.bhinneka.helper.JajananDiffCallback
 import com.bayu.bhinneka.ui.edit_jajanan.EditJajananActivity
 import com.bumptech.glide.Glide
 

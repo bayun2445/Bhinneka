@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -52,6 +53,7 @@ class ResultActivity : AppCompatActivity() {
             Log.w(TAG, intentImageResult.toString())
             imgBitmap = BitmapFactory.decodeFile(intentImageResult.path)
             binding.imgResult.setImageBitmap(imgBitmap)
+
         } else {
             Toast.makeText(this, "Error: no image passed", Toast.LENGTH_SHORT).show()
             finish()
@@ -64,9 +66,9 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.isSuccessful.observe(this) {
-            imgBitmap?.let {
-                bitmap -> viewModel.classifyImage(bitmap)
+        viewModel.isInitSuccessful.observe(this) {
+            imgBitmap?.let { bitmap ->
+                viewModel.classifyImage(bitmap)
             }
         }
 
@@ -74,7 +76,31 @@ class ResultActivity : AppCompatActivity() {
             binding.txtLabelResult.text = name
             if (name != null) {
                 viewModel.getJajanan(name)
-                saveHistory(name)
+                imgBitmap?.let {
+                    viewModel.uploadImage(it)
+                }
+            }
+        }
+
+        viewModel.imgPath.observe(this) {
+            saveHistory(
+                binding.txtLabelResult.text.toString(),
+                it
+            )
+        }
+
+        viewModel.jajananResult.observe(this) { jajanan ->
+            jajanan?.let {
+                loadJajanan(it)
+                Log.d(TAG, jajanan.toString())
+            }
+        }
+
+        viewModel.isLoading.observe(this) {
+            if (it) {
+                binding.cvLoading.visibility = View.VISIBLE
+            } else {
+                binding.cvLoading.visibility = View.GONE
             }
         }
 
@@ -82,22 +108,16 @@ class ResultActivity : AppCompatActivity() {
         viewModel.output.observe(this) {
             binding.txtOutput.text = it
         }
-
-        viewModel.jajananResult.observe(this) { jajanan ->
-            jajanan?.let {
-                loadJajanan(it)
-            }
-        }
     }
 
-    private fun saveHistory(name: String) {
+    private fun saveHistory(name: String, imgPath: String?) {
         val historyId = generateId()
 
         val newHistory = History(
             id = historyId,
             timeStamp = System.currentTimeMillis(),
             resultJajananName = name,
-            imgPath = null
+            imgPath = imgPath
         )
 
         viewModel.addNewHistory(newHistory)

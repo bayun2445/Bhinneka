@@ -2,7 +2,6 @@ package com.bayu.bhinneka.ui.add_jajanan
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -17,14 +16,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.transition.Visibility
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.data.model.Nutrition
 import com.bayu.bhinneka.databinding.ActivityAddJajananBinding
-import com.bayu.bhinneka.helper.IMAGE_EXTRA
-import com.bayu.bhinneka.helper.uriToFile
-import com.bayu.bhinneka.ui.result.ResultActivity
 
 class AddJajananActivity : AppCompatActivity() {
 
@@ -106,8 +101,6 @@ class AddJajananActivity : AppCompatActivity() {
 
     private fun uploadJajananImage() {
         if (binding.imgJajanan.isVisible) {
-//            binding.imgJajanan.isDrawingCacheEnabled = true
-//            binding.imgJajanan.buildDrawingCache()
             val bitmap = binding.imgJajanan.drawable.toBitmap()
 
             viewModel.uploadImage(bitmap, "img-${binding.txtName.text.toString()}")

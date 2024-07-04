@@ -204,7 +204,7 @@ class Repository {
     fun getAllHistory(): LiveData<List<History>?> {
         val liveData = MutableLiveData<List<History>>()
 
-        database.child(CHILD_HISTORY).child(getUID()).orderByChild("date").addValueEventListener(object : ValueEventListener {
+        database.child(CHILD_HISTORY).child(getUID()).orderByChild("timeStamp").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val historyList = mutableListOf<History>()
                 Log.d(TAG, getUID())
@@ -217,7 +217,7 @@ class Repository {
                     }
                 }
 
-                liveData.value = historyList
+                liveData.value = historyList.reversed()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -234,6 +234,8 @@ class Repository {
     }
 
     //--Storage
+
+    //--Jajanan
 
     fun uploadJajananImage(
         bitmap: Bitmap,
@@ -266,10 +268,38 @@ class Repository {
             .delete()
     }
 
+    //--History
+
+    fun uploadHistoryImage(
+        bitmap: Bitmap,
+        result: (Boolean, String?) -> Unit
+    ) {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        val data = outputStream.toByteArray()
+
+        val ref = storage.child(CHILD_STORAGE_HISTORY).child(getUID())
+        val uploadTask = ref.putBytes(data)
+
+        uploadTask
+            .continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                ref.downloadUrl
+            }
+            .addOnCompleteListener {
+                result(it.isSuccessful, it.result.toString())
+            }
+    }
+
     companion object {
         private const val TAG = "Repository"
         private const val CHILD_JAJANAN = "jajanan"
         private const val CHILD_HISTORY = "history"
         private const val CHILD_STORAGE_ASSET = "assets"
+        private const val CHILD_STORAGE_HISTORY = "history_images"
     }
 }

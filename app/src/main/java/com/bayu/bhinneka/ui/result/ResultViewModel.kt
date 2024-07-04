@@ -15,21 +15,26 @@ class ResultViewModel: ViewModel() {
     private val repository = Repository()
     private lateinit var tfLiteHelper: TFLiteHelper
 
-    private val _isSuccessful = MutableLiveData<Boolean?>()
+    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isInitSuccessful = MutableLiveData<Boolean?>()
     private val _result = MutableLiveData<String?>()
     private val _output = MutableLiveData<String?>()
     private val _jajananResult = MutableLiveData<Jajanan?>()
+    private val _imgPath = MutableLiveData<String?>()
 
-    val isSuccessful: LiveData<Boolean?> = _isSuccessful
+    val isLoading: LiveData<Boolean> = _isLoading
+    val isInitSuccessful: LiveData<Boolean?> = _isInitSuccessful
     val result: LiveData<String?> = _result
     val output: LiveData<String?> = _output
     val jajananResult: LiveData<Jajanan?> = _jajananResult
+    val imgPath: LiveData<String?> = _imgPath
 
 
     fun init(context: Context) {
+        _isLoading.value = true
         tfLiteHelper = TFLiteHelper(context)
         tfLiteHelper.init {
-            _isSuccessful.value = it
+            _isInitSuccessful.value = it
         }
     }
 
@@ -47,5 +52,12 @@ class ResultViewModel: ViewModel() {
 
     fun addNewHistory(history: History) {
         repository.addNewHistory(history)
+        _isLoading.value = false
+    }
+
+    fun uploadImage(bitmap: Bitmap) {
+        repository.uploadHistoryImage(bitmap) { _, path ->
+            _imgPath.value = path
+        }
     }
 }
