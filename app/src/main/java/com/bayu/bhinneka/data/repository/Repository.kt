@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.data.model.Jajanan
+import com.bayu.bhinneka.helper.generateId
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -278,7 +279,7 @@ class Repository {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
         val data = outputStream.toByteArray()
 
-        val ref = storage.child(CHILD_STORAGE_HISTORY).child(getUID())
+        val ref = storage.child(CHILD_STORAGE_HISTORY).child(getUID()).child(generateId(6))
         val uploadTask = ref.putBytes(data)
 
         uploadTask
