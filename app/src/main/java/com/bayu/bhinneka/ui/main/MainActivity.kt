@@ -28,6 +28,7 @@ import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.databinding.ActivityMainBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
+import com.bayu.bhinneka.helper.ROLE_EXTRA
 import com.bayu.bhinneka.helper.bitmapToFile
 import com.bayu.bhinneka.helper.uriToFile
 import com.bayu.bhinneka.ui.list_jajanan.ListJajananActivity
@@ -76,6 +77,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var isAdmin = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -96,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        isAdmin = intent.getBooleanExtra(ROLE_EXTRA, false)
         binding.txtUsername.text = getString(R.string.welcome, viewModel.getCurrentUser()?.email)
 
         setPopUpMenu()

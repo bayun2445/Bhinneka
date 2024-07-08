@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityRegisterBinding
+import com.bayu.bhinneka.helper.ROLE_EXTRA
 import com.bayu.bhinneka.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseUser
 
@@ -43,18 +44,23 @@ class RegisterActivity : AppCompatActivity() {
             updateUI(it)
         }
 
-        viewModel.message.observe(this) {
-            showToast(it)
+        viewModel.message.observe(this) { text ->
+            showToast(text)
         }
     }
 
     private fun showToast(text: String?) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        text?.let{
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
-            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+            startActivity(
+                Intent(this@RegisterActivity, MainActivity::class.java)
+                    .putExtra(ROLE_EXTRA, viewModel.getRole())
+            )
             finish()
         }
     }

@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.helper.generateId
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -46,6 +48,18 @@ class Repository {
                     user(null)
                 }
             }
+    }
+
+    fun getRole(): Boolean {
+        var isAdmin = false
+
+        database.child(CHILD_USERS).child(getUID()).child("role").get()
+            .addOnSuccessListener {
+                Log.d(TAG, it.value.toString())
+                isAdmin = it.value.toString() == "admin"
+            }
+
+        return isAdmin
     }
 
     fun registerWithEmailAndPassword(
@@ -142,8 +156,6 @@ class Repository {
         database.child(CHILD_JAJANAN).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val jajananList = mutableListOf<Jajanan>()
-                Log.d(TAG, getUID())
-                Log.d(TAG, snapshot.value.toString())
                 for (child in snapshot.children) {
                     val jajanan = child.getValue(Jajanan::class.java)
                     if (jajanan != null) {
@@ -163,20 +175,43 @@ class Repository {
         return liveData
     }
 
-    fun getJajanan(name: String): Jajanan? {
-        var jajanan: Jajanan? = null
+    fun getJajanan(name: String): LiveData<Jajanan?> {
+        val liveData = MutableLiveData<Jajanan?>()
 
-        database.child(CHILD_JAJANAN).child(name).get()
-            .addOnSuccessListener {
-                val jajananData = it.getValue(Jajanan::class.java)
+        database.child(CHILD_JAJANAN).child(name).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d(TAG, snapshot.value.toString())
+                val jajanan = snapshot.getValue(Jajanan::class.java)
+                liveData.value = jajanan
 
-                jajanan = jajananData
+
+//                val jajananList = mutableListOf<Jajanan>()
+//                for (child in snapshot.children) {
+//                    val jajanan = child.getValue(Jajanan::class.java)
+//                    if (jajanan != null) {
+//                        jajananList.add(jajanan)
+//                    }
+//                }
+//
+//                liveData.value = jajananList
             }
-            .addOnFailureListener {
-                Log.e(TAG, it.message.toString())
-            }
 
-        return jajanan
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Repository", "Failed to load jajananList: ", error.toException())
+            }
+        })
+//            .child(name).get()
+//            .addOnSuccessListener {
+//                val jajananData = it.getValue(Jajanan::class.java)
+//                Log.d(TAG, it.value.toString())
+//                Log.d(TAG, jajananData.toString())
+//                jajanan = jajananData
+//            }
+//            .addOnFailureListener {
+//                Log.e(TAG, it.message.toString())
+//            }
+
+        return liveData
     }
 
     fun addNewJajanan(jajanan: Jajanan, isSuccessful: (Boolean) -> Unit) {
@@ -298,6 +333,7 @@ class Repository {
 
     companion object {
         private const val TAG = "Repository"
+        private const val CHILD_USERS = "users"
         private const val CHILD_JAJANAN = "jajanan"
         private const val CHILD_HISTORY = "history"
         private const val CHILD_STORAGE_ASSET = "assets"

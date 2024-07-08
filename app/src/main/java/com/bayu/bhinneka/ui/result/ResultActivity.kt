@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bayu.bhinneka.R
+import com.bayu.bhinneka.component.setResizableText
 import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.databinding.ActivityResultBinding
@@ -89,18 +90,20 @@ class ResultActivity : AppCompatActivity() {
             )
         }
 
-        viewModel.jajananResult.observe(this) { jajanan ->
-            jajanan?.let {
-                loadJajanan(it)
-                Log.d(TAG, jajanan.toString())
-            }
-        }
+//        viewModel.jajananResult.observe(this) { jajanan ->
+//            Log.d(TAG, jajanan.toString())
+//            jajanan?.let {
+//                loadJajanan(it)
+//            }
+//        }
 
         viewModel.isLoading.observe(this) {
             if (it) {
                 binding.cvLoading.visibility = View.VISIBLE
+                binding.container.visibility = View.INVISIBLE
             } else {
                 binding.cvLoading.visibility = View.GONE
+                binding.container.visibility = View.VISIBLE
             }
         }
 
@@ -108,9 +111,17 @@ class ResultActivity : AppCompatActivity() {
         viewModel.output.observe(this) {
             binding.txtOutput.text = it
         }
+
     }
 
     private fun saveHistory(name: String, imgPath: String?) {
+
+        viewModel.getJajanan(name).observe(this) { jajanan ->
+            Log.d(TAG, jajanan.toString())
+            jajanan?.let {
+                loadJajanan(it)
+            }
+        }
         val historyId = generateId()
 
         val newHistory = History(
@@ -121,10 +132,24 @@ class ResultActivity : AppCompatActivity() {
         )
 
         viewModel.addNewHistory(newHistory)
+
     }
 
     private fun loadJajanan(jajanan: Jajanan) {
-        // Todo: set update UI to load jajanan
+        binding.apply {
+            txtCarbs.text = jajanan.nutrition.carbs.toString()
+            txtProtein.text = jajanan.nutrition.protein.toString()
+            txtCalorie.text = jajanan.nutrition.calorie.toString()
+            txtFat.text = jajanan.nutrition.fat.toString()
+            txtNatrium.text = jajanan.nutrition.natrium.toString()
+            txtKalium.text = jajanan.nutrition.kalium.toString()
+
+            txtDescription.text = jajanan.description
+            txtRecipe.text = jajanan.recipe
+            txtDescription.setResizableText(jajanan.description, 4, true)
+            txtDescription.setResizableText(jajanan.recipe, 4, true)
+        }
+
     }
 
 

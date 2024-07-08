@@ -27,4 +27,8 @@ class RegisterViewModel: ViewModel() {
             }
         }
     }
+
+    fun getRole(): Boolean {
+        return repository.getRole()
+    }
 }

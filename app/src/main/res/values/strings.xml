@@ -83,4 +83,8 @@
     <string name="delete">Hapus</string>
     <string name="cancel">Batal</string>
     <string name="welcome">Selamat datang, %1$s</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec enim non diam luctus tincidunt a a justo. Sed euismod, nisl eget tincidunt ultricies, nunc nisl aliquam nisl, eget aliquam nisl nisl eu nisl. Donec a lacus vel turpis consectetur laoreet. Nulla facilisi. Sed elementum, tortor non consequat faucibus, lectus nibh ullamcorper eros, eu egestas enim velit vel orci.</string>
+    <string name="resizable_text_read_more">read more...</string>
+    <string name="resizable_text_read_less">read less...</string>
+    <string name="_220">220</string>
 </resources>

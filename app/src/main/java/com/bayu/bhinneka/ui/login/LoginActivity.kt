@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bayu.bhinneka.BuildConfig
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityLoginBinding
+import com.bayu.bhinneka.helper.ROLE_EXTRA
 import com.bayu.bhinneka.ui.main.MainActivity
 import com.bayu.bhinneka.ui.register.RegisterActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -127,7 +128,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(
+                Intent(this@LoginActivity, MainActivity::class.java)
+                    .putExtra(ROLE_EXTRA, viewModel.getRole())
+            )
             finish()
         }
     }

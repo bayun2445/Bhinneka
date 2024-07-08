@@ -46,8 +46,8 @@ class ResultViewModel: ViewModel() {
         _output.value = resultArray[1]
     }
 
-    fun getJajanan(name: String) {
-        _jajananResult.value = repository.getJajanan(name)
+    fun getJajanan(name: String): LiveData<Jajanan?> {
+        return repository.getJajanan(name)
     }
 
     fun addNewHistory(history: History) {
