@@ -2,6 +2,7 @@ package com.bayu.bhinneka.ui.result
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.text.LineBreaker
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.databinding.ActivityResultBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
 import com.bayu.bhinneka.helper.generateId
+import com.bayu.bhinneka.helper.toPercent
 import java.io.File
 
 class ResultActivity : AppCompatActivity() {
@@ -29,6 +31,7 @@ class ResultActivity : AppCompatActivity() {
     }
 
     private var imgBitmap: Bitmap? = null
+    private var matchScore: Float? = 0f
 
     private val viewModel: ResultViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,8 +76,14 @@ class ResultActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.result.observe(this) { name ->
+        viewModel.result.observe(this) { resultArray ->
+            val name = resultArray[0]
+            matchScore = resultArray[1]?.toFloat()
             binding.txtLabelResult.text = name
+            binding.txtOutput.text = buildString {
+                append("Tingkat kecocokan: ")
+                append(matchScore?.toPercent())
+            }
             if (name != null) {
                 viewModel.getJajanan(name)
                 imgBitmap?.let {
@@ -106,12 +115,6 @@ class ResultActivity : AppCompatActivity() {
                 binding.container.visibility = View.VISIBLE
             }
         }
-
-        // Removable
-        viewModel.output.observe(this) {
-            binding.txtOutput.text = it
-        }
-
     }
 
     private fun saveHistory(name: String, imgPath: String?) {
@@ -128,7 +131,8 @@ class ResultActivity : AppCompatActivity() {
             id = historyId,
             timeStamp = System.currentTimeMillis(),
             resultJajananName = name,
-            imgPath = imgPath
+            imgPath = imgPath,
+            matchScore = matchScore
         )
 
         viewModel.addNewHistory(newHistory)
@@ -137,17 +141,38 @@ class ResultActivity : AppCompatActivity() {
 
     private fun loadJajanan(jajanan: Jajanan) {
         binding.apply {
-            txtCarbs.text = jajanan.nutrition.carbs.toString()
-            txtProtein.text = jajanan.nutrition.protein.toString()
-            txtCalorie.text = jajanan.nutrition.calorie.toString()
-            txtFat.text = jajanan.nutrition.fat.toString()
-            txtNatrium.text = jajanan.nutrition.natrium.toString()
-            txtKalium.text = jajanan.nutrition.kalium.toString()
+            txtCarbs.text = buildString {
+                append(jajanan.nutrition.carbs.toString())
+                append("g")
+            }
+            txtProtein.text = buildString {
+                append(jajanan.nutrition.protein.toString())
+                append("g")
+            }
+            txtCalorie.text = buildString {
+                append(jajanan.nutrition.calorie.toString())
+                append("kkal")
+            }
+            txtFat.text = buildString {
+                append(jajanan.nutrition.fat.toString())
+                append("g")
+            }
+            txtNatrium.text = buildString {
+                append(jajanan.nutrition.natrium.toString())
+                append("mg")
+            }
+            txtKalium.text = buildString {
+                append(jajanan.nutrition.kalium.toString())
+                append("mg")
+            }
 
             txtDescription.text = jajanan.description
             txtRecipe.text = jajanan.recipe
             txtDescription.setResizableText(jajanan.description, 4, true)
-            txtDescription.setResizableText(jajanan.recipe, 4, true)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                txtDescription.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+            }
+            txtRecipe.setResizableText(jajanan.recipe, 4, true)
         }
 
     }

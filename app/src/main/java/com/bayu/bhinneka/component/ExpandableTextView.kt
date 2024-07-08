@@ -19,7 +19,7 @@ import kotlin.math.roundToInt
 
 open class ExpandableTextView(val context: Context) : ClickableSpan() {
     override fun updateDrawState(textPaint: TextPaint) {
-        textPaint.isUnderlineText = false
+        textPaint.isUnderlineText = true
         textPaint.color = ContextCompat.getColor(context, androidx.appcompat.R.color.accent_material_light)
     }
 
@@ -71,7 +71,7 @@ fun TextView.setResizableText(
     val charactersAtLineEnd = textLayout.getLineEnd(maxLines - 1)
     val suffixText =
         if (viewMore) resources.getString(R.string.resizable_text_read_more) else resources.getString(R.string.resizable_text_read_less)
-    var charactersToTake = charactersAtLineEnd - suffixText.length / 2 // Good enough first guess
+    var charactersToTake = charactersAtLineEnd - suffixText.length / 2// Good enough first guess
     if (charactersToTake <= 0) {
         // Happens when text is empty
         val htmlText = adjustedText.replace("\n", "<br/>")

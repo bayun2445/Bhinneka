@@ -9,11 +9,13 @@ data class History(
     val timeStamp: Long,
     val resultJajananName: String,
     val imgPath: String?,
+    val matchScore: Float?,
 ) : Parcelable {
     constructor() : this(
         "",
         0,
         "",
-        ""
+        "",
+        0f,
     )
 }

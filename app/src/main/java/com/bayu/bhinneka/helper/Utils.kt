@@ -68,3 +68,7 @@ fun generateId(length: Int = 4): String {
         .map { chars[random.nextInt(chars.length)] }
         .joinToString("")
 }
+
+fun Float.toPercent(decimalPlaces: Int = 0): String {
+    return String.format("%.${decimalPlaces}f%%", this * 100)
+}

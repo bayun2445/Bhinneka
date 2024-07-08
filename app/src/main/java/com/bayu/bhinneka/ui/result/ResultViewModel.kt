@@ -8,31 +8,29 @@ import androidx.lifecycle.ViewModel
 import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.data.repository.Repository
-import com.bayu.bhinneka.helper.TFLiteHelper
+import com.bayu.bhinneka.data.repository.TFLiteInitiator
 
 class ResultViewModel: ViewModel() {
 
     private val repository = Repository()
-    private lateinit var tfLiteHelper: TFLiteHelper
+    private lateinit var tfLiteHelper: TFLiteInitiator
 
     private val _isLoading = MutableLiveData<Boolean>()
     private val _isInitSuccessful = MutableLiveData<Boolean?>()
-    private val _result = MutableLiveData<String?>()
-    private val _output = MutableLiveData<String?>()
+    private val _result = MutableLiveData<Array<String?>>()
     private val _jajananResult = MutableLiveData<Jajanan?>()
     private val _imgPath = MutableLiveData<String?>()
 
     val isLoading: LiveData<Boolean> = _isLoading
     val isInitSuccessful: LiveData<Boolean?> = _isInitSuccessful
-    val result: LiveData<String?> = _result
-    val output: LiveData<String?> = _output
+    val result: LiveData<Array<String?>> = _result
     val jajananResult: LiveData<Jajanan?> = _jajananResult
     val imgPath: LiveData<String?> = _imgPath
 
 
     fun init(context: Context) {
         _isLoading.value = true
-        tfLiteHelper = TFLiteHelper(context)
+        tfLiteHelper = TFLiteInitiator(context)
         tfLiteHelper.init {
             _isInitSuccessful.value = it
         }
@@ -42,8 +40,7 @@ class ResultViewModel: ViewModel() {
         tfLiteHelper.classifyImage(bitmap)
 
         val resultArray = tfLiteHelper.showResult()
-        _result.value = resultArray[0]
-        _output.value = resultArray[1]
+        _result.value = resultArray
     }
 
     fun getJajanan(name: String): LiveData<Jajanan?> {

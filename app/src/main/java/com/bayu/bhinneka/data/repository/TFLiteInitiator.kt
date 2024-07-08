@@ -1,8 +1,9 @@
-package com.bayu.bhinneka.helper
+package com.bayu.bhinneka.data.repository
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import com.bayu.bhinneka.helper.toPercent
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
 import com.google.firebase.ml.modeldownloader.DownloadType
 import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
@@ -22,7 +23,7 @@ import java.util.Collections
 import kotlin.math.min
 
 
-class TFLiteHelper(
+class TFLiteInitiator(
     private val context: Context
 ) {
 
@@ -99,7 +100,7 @@ class TFLiteHelper(
             }
         }
 
-        return arrayOf(resultLabel, labeledProbability.toString())
+        return arrayOf(resultLabel, labeledProbability.getValue(resultLabel).toString())
     }
 
     private fun loadImage(bitmap: Bitmap): TensorImage {
