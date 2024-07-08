@@ -99,13 +99,6 @@ class ResultActivity : AppCompatActivity() {
             )
         }
 
-//        viewModel.jajananResult.observe(this) { jajanan ->
-//            Log.d(TAG, jajanan.toString())
-//            jajanan?.let {
-//                loadJajanan(it)
-//            }
-//        }
-
         viewModel.isLoading.observe(this) {
             if (it) {
                 binding.cvLoading.visibility = View.VISIBLE

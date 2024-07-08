@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,7 +22,7 @@ class ListJajananActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityListJajananBinding.inflate(layoutInflater)
     }
-    private lateinit var viewModel: ListJajananViewModel
+    private val viewModel: ListJajananViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +36,6 @@ class ListJajananActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        viewModel = ViewModelProvider(this)[ListJajananViewModel::class.java]
 
         binding.rvListJajanan.layoutManager = LinearLayoutManager(this)
 

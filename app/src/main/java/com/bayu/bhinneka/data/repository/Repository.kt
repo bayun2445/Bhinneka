@@ -50,16 +50,18 @@ class Repository {
             }
     }
 
-    fun getRole(): Boolean {
-        var isAdmin = false
+    fun getRole(isAdmin: (Boolean) -> Unit) {
 
         database.child(CHILD_USERS).child(getUID()).child("role").get()
             .addOnSuccessListener {
-                Log.d(TAG, it.value.toString())
-                isAdmin = it.value.toString() == "admin"
-            }
+                val role = it.getValue(String::class.java)
 
-        return isAdmin
+                if (role == "admin") {
+                    isAdmin(true)
+                } else {
+                    isAdmin(false)
+                }
+            }
     }
 
     fun registerWithEmailAndPassword(
@@ -178,7 +180,7 @@ class Repository {
     fun getJajanan(name: String): LiveData<Jajanan?> {
         val liveData = MutableLiveData<Jajanan?>()
 
-        database.child(CHILD_JAJANAN).child(name).addValueEventListener(object : ValueEventListener {
+        database.child(CHILD_JAJANAN).child(name).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.d(TAG, snapshot.value.toString())
                 val jajanan = snapshot.getValue(Jajanan::class.java)

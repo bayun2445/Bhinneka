@@ -1,12 +1,15 @@
 package com.bayu.bhinneka.ui.main
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.databinding.ItemListHistoryBinding
+import com.bayu.bhinneka.helper.HISTORY_EXTRA
 import com.bayu.bhinneka.helper.HistoryDiffCallback
+import com.bayu.bhinneka.ui.history.HistoryActivity
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -58,7 +61,10 @@ class HistoryListAdapter: RecyclerView.Adapter<HistoryListAdapter.HistoryViewHol
                 .into(itemBinding.imgJajananPicture)
 
             itemView.setOnClickListener {
-                // TODO("Create history activity")
+                itemView.context.startActivity(
+                    Intent(itemView.context, HistoryActivity::class.java)
+                        .putExtra(HISTORY_EXTRA, history)
+                )
             }
         }
     }
