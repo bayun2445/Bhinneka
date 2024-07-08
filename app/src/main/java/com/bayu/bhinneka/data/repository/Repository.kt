@@ -8,6 +8,7 @@ import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.data.model.Jajanan
 import com.bayu.bhinneka.helper.generateId
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -50,18 +51,21 @@ class Repository {
             }
     }
 
-    fun getRole(isAdmin: (Boolean) -> Unit) {
+    fun getRole(): LiveData<String?> {
+        val liveData = MutableLiveData<String?>()
 
-        database.child(CHILD_USERS).child(getUID()).child("role").get()
-            .addOnSuccessListener {
-                val role = it.getValue(String::class.java)
-
-                if (role == "admin") {
-                    isAdmin(true)
-                } else {
-                    isAdmin(false)
-                }
+        database.child(CHILD_USERS).child(getUID()).child("role").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val role = snapshot.getValue(String::class.java)
+                liveData.value = role
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                throw error.toException()
+            }
+        })
+
+        return liveData
     }
 
     fun registerWithEmailAndPassword(

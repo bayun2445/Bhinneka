@@ -128,11 +128,21 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
-            startActivity(
-                Intent(this@LoginActivity, MainActivity::class.java)
-                    .putExtra(ROLE_EXTRA, viewModel.getRole())
-            )
-            finish()
+            viewModel.getRole().observe(this) {
+                if (it == "admin") {
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                            .putExtra(ROLE_EXTRA, true)
+                    )
+                    finish()
+                } else {
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                            .putExtra(ROLE_EXTRA, false)
+                    )
+                }
+            }
+
         }
     }
 

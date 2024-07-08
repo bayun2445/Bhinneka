@@ -28,7 +28,7 @@ class RegisterViewModel: ViewModel() {
         }
     }
 
-    fun getRole(): Boolean {
+    fun getRole(): LiveData<String?> {
         return repository.getRole()
     }
 }

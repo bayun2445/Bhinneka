@@ -57,11 +57,20 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
-            startActivity(
-                Intent(this@RegisterActivity, MainActivity::class.java)
-                    .putExtra(ROLE_EXTRA, viewModel.getRole())
-            )
-            finish()
+            viewModel.getRole().observe(this) {
+                if (it == "admin") {
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                            .putExtra(ROLE_EXTRA, true)
+                    )
+                    finish()
+                } else {
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                            .putExtra(ROLE_EXTRA, false)
+                    )
+                }
+            }
         }
     }
 

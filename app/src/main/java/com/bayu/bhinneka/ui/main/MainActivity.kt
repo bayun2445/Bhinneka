@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.get
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
@@ -77,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var isAdmin = false
+    private var isAdmin = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +93,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.rvListHistory.layoutManager = LinearLayoutManager(this)
 
         if (viewModel.getCurrentUser() == null) {
             startActivity(Intent(this, LoginActivity::class.java))
@@ -110,6 +111,8 @@ class MainActivity : AppCompatActivity() {
                 loadHistoryList(it)
             }
         }
+
+        binding.rvListHistory.layoutManager = LinearLayoutManager(this)
     }
 
     private fun loadHistoryList(histories: List<History>) {
@@ -125,7 +128,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setPopUpMenu() {
         val popupMenu = PopupMenu(
-            this@MainActivity,
+            this,
             binding.btnDetection,
             Gravity.CENTER_HORIZONTAL
         )
@@ -174,6 +177,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_top_menu, menu)
+        if (!isAdmin) {
+            menu?.findItem(R.id.menu_edit)?.setVisible(false)
+        }
         return true
     }
 
@@ -181,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.menu_edit -> {
                 startActivity(
-                    Intent(this@MainActivity, ListJajananActivity::class.java)
+                    Intent(this, ListJajananActivity::class.java)
                 )
 
                 true
