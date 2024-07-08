@@ -73,7 +73,7 @@ class EditJajananActivity : AppCompatActivity() {
             if (isImageUpdated) {
                 uploadJajananImage()
             } else {
-                updateJajanan(null)
+                updateJajanan(jajananIntent.imagePath)
             }
         }
 
