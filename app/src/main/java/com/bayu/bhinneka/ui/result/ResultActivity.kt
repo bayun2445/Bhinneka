@@ -1,5 +1,6 @@
 package com.bayu.bhinneka.ui.result
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.text.LineBreaker
@@ -22,7 +23,9 @@ import com.bayu.bhinneka.databinding.ActivityResultBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
 import com.bayu.bhinneka.helper.generateId
 import com.bayu.bhinneka.helper.toPercent
+import com.bayu.bhinneka.ui.metabolic_rate.MetabolicPreferenceActivity
 import java.io.File
+import kotlin.math.roundToInt
 
 class ResultActivity : AppCompatActivity() {
 
@@ -66,6 +69,10 @@ class ResultActivity : AppCompatActivity() {
         viewModel.init(this)
 
         observeViewModel()
+
+        binding.txtCalculate.setOnClickListener {
+            startActivity(Intent(this, MetabolicPreferenceActivity::class.java))
+        }
 
     }
 
@@ -116,6 +123,7 @@ class ResultActivity : AppCompatActivity() {
             Log.d(TAG, jajanan.toString())
             jajanan?.let {
                 loadJajanan(it)
+                loadPreferences()
             }
         }
         val historyId = generateId()
@@ -130,6 +138,29 @@ class ResultActivity : AppCompatActivity() {
 
         viewModel.addNewHistory(newHistory)
 
+    }
+
+    private fun loadPreferences() {
+        binding.apply {
+            val metabolicPercentage =
+                txtCalorie.text.toString()
+                    .replace("kkal", "")
+                    .toFloat() / viewModel.getResult()
+
+            if (viewModel.getResult() == 0f) {
+                txtCalculate.visibility = View.VISIBLE
+                llMetabolicNeed.visibility = View.GONE
+            } else {
+                txtMetabolicNeed.text = metabolicPercentage.toPercent(1)
+                txtCalculate.visibility = View.GONE
+                llMetabolicNeed.visibility = View.VISIBLE
+            }
+
+            txtMetabolicLabel.text = buildString {
+                append("${ getString(R.string.akg) }: ")
+                append(viewModel.getResult().roundToInt())
+            }
+        }
     }
 
     private fun loadJajanan(jajanan: Jajanan) {
@@ -168,6 +199,11 @@ class ResultActivity : AppCompatActivity() {
             txtRecipe.setResizableText(jajanan.recipe, 4, true)
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadPreferences()
     }
 
 

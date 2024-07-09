@@ -28,6 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.History
+import com.bayu.bhinneka.data.repository.Preferences
 import com.bayu.bhinneka.databinding.ActivityMainBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
 import com.bayu.bhinneka.helper.ROLE_EXTRA
@@ -214,7 +215,9 @@ class MainActivity : AppCompatActivity() {
     private fun logout() {
         lifecycleScope.launch {
             val credentialManager = CredentialManager.create(this@MainActivity)
+            val preferences = Preferences.getInstance(this@MainActivity)
 
+            preferences.clearPreferences()
             viewModel.signOut()
             credentialManager.clearCredentialState(ClearCredentialStateRequest())
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))

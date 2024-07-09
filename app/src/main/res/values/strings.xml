@@ -102,6 +102,8 @@
     <string name="exercise_prompt">Seberapa sering Anda olahraga?</string>
     <string name="choose_one">Pilih satu</string>
     <string name="akg">AKG</string>
+    <string name="akg_2200">AKG: 2200</string>
+    <string name="calculate_akg">Tap untuk Kalkulasi AKG</string>
     <string-array name="exercise_items">
         <item>
             Sangat jarang berolahraga

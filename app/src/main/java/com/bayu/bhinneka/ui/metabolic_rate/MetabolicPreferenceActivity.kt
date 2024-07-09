@@ -1,6 +1,7 @@
 package com.bayu.bhinneka.ui.metabolic_rate
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -9,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.databinding.ActivityMetabolicBinding
+import kotlin.math.roundToInt
 
 class MetabolicPreferenceActivity : AppCompatActivity() {
 
@@ -45,8 +47,16 @@ class MetabolicPreferenceActivity : AppCompatActivity() {
         val arrayExerciseAdapter = ArrayAdapter(this, R.layout.item_dropdown_exercise, arrayExercise)
         binding.tvExercise.setAdapter(arrayExerciseAdapter)
 
-        binding.rdGenders.setOnCheckedChangeListener { _, index ->
-            genderIndex = index
+        binding.rdMale.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                genderIndex = 0
+            }
+        }
+
+        binding.rdFemale.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                genderIndex = 1
+            }
         }
 
         binding.btnSave.setOnClickListener {
@@ -55,12 +65,24 @@ class MetabolicPreferenceActivity : AppCompatActivity() {
     }
 
     private fun loadUI() {
+        val result = viewModel.getResult()
+        binding.tvResult.text = if ( result == 0f) {
+            buildString {
+                append("Tidak ada data.")
+            }
+        } else {
+            buildString {
+                append(result.roundToInt())
+                append(" kkal")
+            }
+        }
+
         val preferenceMap = viewModel.getPreferences()
 
-        if (preferenceMap["gender"] == 0) {
-            binding.rdMale.isChecked = true
-        } else {
+        if (preferenceMap["gender"] == 1) {
             binding.rdFemale.isChecked = true
+        } else {
+            binding.rdMale.isChecked = true
         }
 
         binding.txtAge.setText(preferenceMap["age"].toString())
@@ -78,7 +100,7 @@ class MetabolicPreferenceActivity : AppCompatActivity() {
             exercisePreference = arrayExercise.indexOf(binding.tvExercise.text.toString())
         )
 
-        val result = viewModel.getResult()
+        val result = viewModel.getResult().roundToInt()
         binding.tvResult.text = buildString {
             append(result)
             append(" kkal")

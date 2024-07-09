@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bayu.bhinneka.data.model.History
 import com.bayu.bhinneka.data.model.Jajanan
+import com.bayu.bhinneka.data.repository.Preferences
 import com.bayu.bhinneka.data.repository.Repository
 import com.bayu.bhinneka.data.repository.TFLiteInitiator
 
@@ -14,6 +15,7 @@ class ResultViewModel: ViewModel() {
 
     private val repository = Repository()
     private lateinit var tfLiteHelper: TFLiteInitiator
+    private lateinit var preferences: Preferences
 
     private val _isLoading = MutableLiveData<Boolean>()
     private val _isInitSuccessful = MutableLiveData<Boolean?>()
@@ -30,6 +32,7 @@ class ResultViewModel: ViewModel() {
 
     fun init(context: Context) {
         _isLoading.value = true
+        preferences = Preferences.getInstance(context)
         tfLiteHelper = TFLiteInitiator(context)
         tfLiteHelper.init {
             _isInitSuccessful.value = it
@@ -56,5 +59,9 @@ class ResultViewModel: ViewModel() {
         repository.uploadHistoryImage(bitmap) { _, path ->
             _imgPath.value = path
         }
+    }
+
+    fun getResult(): Float {
+        return preferences.readResult()
     }
 }

@@ -8,7 +8,7 @@ class Preferences private constructor(context: Context) {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("metabolic_prefs", Context.MODE_PRIVATE)
 
-    var gender: Int = 0
+    var gender: Int = -1
         private set
     var age: Int = 0
         private set
@@ -19,7 +19,7 @@ class Preferences private constructor(context: Context) {
     var exercisePreference: Int = 0
         private set
 
-    var result: Int = 0
+    var result: Float = 0f
         private set
 
     fun inputProperties(
@@ -45,10 +45,48 @@ class Preferences private constructor(context: Context) {
         }
     }
 
-    fun readResult(): Int {
-        // Calculate a result based on the stored preferences
-        // This is a placeholder, replace with your actual calculation
-        this.result = age + weight.toInt() + height.toInt() + exercisePreference
+    fun readResult(): Float {
+//        a. AMB Pria = 66,5 + (13,7 x berat badan(kg)) + (5 x tinggi badan(cm)) – (6,8 x
+//        usia)
+//        b. BMR Wanita = 655 + (9,6 x berat badan(kg)) + (1,8 x tinggi badan(cm)) – (4,7
+//        x usia
+
+        val genderConstant = when(gender) {
+            0 -> 66.5f // male
+            1 -> 655.0f // female
+            else -> 0f
+        }
+
+        val weightMultiplier = when (gender) {
+            0 -> 13.7f * weight
+            1 -> 9.6f * weight
+            else -> 0f
+        }
+
+        val heightMultiplier = when (gender) {
+            0 -> 5f * height
+            1 -> 1.8f * height
+            else -> 0f
+        }
+
+        val ageMultiplier = when (gender) {
+            0 -> 6.8f * age.toFloat()
+            1 -> 4.7f * age.toFloat()
+            else -> 0f
+        }
+
+        val calculatedBMR = genderConstant + weightMultiplier + heightMultiplier - ageMultiplier
+
+        val calculatedResult = when (exercisePreference) {
+            0 -> calculatedBMR * 1.2f
+            1 -> calculatedBMR * 1.375f
+            2 -> calculatedBMR * 1.55f
+            3 -> calculatedBMR * 1.725f
+            4 -> calculatedBMR * 1.8f
+            else -> 0f
+        }
+
+        this.result = calculatedResult
         return result
     }
 
@@ -63,11 +101,24 @@ class Preferences private constructor(context: Context) {
     }
 
     fun loadPreferences() {
-        gender = sharedPreferences.getInt("gender", 0)
+        gender = sharedPreferences.getInt("gender", -1)
         age = sharedPreferences.getInt("age", 0)
         weight = sharedPreferences.getFloat("weight", 0f)
         height = sharedPreferences.getFloat("height", 0f)
         exercisePreference = sharedPreferences.getInt("exercisePreference", 0)
+    }
+
+    fun clearPreferences() {
+        sharedPreferences.edit()
+            .clear()
+            .apply()
+
+        this.gender = -1
+        this.age = 0
+        this.weight = 0f
+        this.height = 0f
+        this.exercisePreference = 0
+        this.result = 0f
     }
 
     companion object {

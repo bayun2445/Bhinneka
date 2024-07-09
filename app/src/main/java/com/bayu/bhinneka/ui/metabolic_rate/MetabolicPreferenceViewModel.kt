@@ -1,6 +1,7 @@
 package com.bayu.bhinneka.ui.metabolic_rate
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.bayu.bhinneka.data.repository.Preferences
 
@@ -26,7 +27,7 @@ class MetabolicPreferenceViewModel : ViewModel() {
         return preferences.readPropertiesAsMap()
     }
 
-    fun getResult(): Int {
+    fun getResult(): Float {
         return preferences.readResult()
     }
 
