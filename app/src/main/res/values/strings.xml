@@ -90,4 +90,33 @@
     <string name="match_number">Tingkat kecocokan: 90%</string>
     <string name="description_and_history">Deskripsi dan sejarah</string>
     <string name="recipe_result">Resep:</string>
+    <string name="basic_metabolic_need">Angka Kebutuhan Gizi (AKG)</string>
+    <string name="default_metabolic">2200 kkal</string>
+    <string name="gender">Jenis Kelamin</string>
+    <string name="body_weight">Berat Badan</string>
+    <string name="male">Laki-Laki</string>
+    <string name="female">Perempuan</string>
+    <string name="gender_prompt">Apa jenis kelamin Anda?</string>
+    <string name="body_height">Tinggi Badan</string>
+    <string name="age">Usia</string>
+    <string name="exercise_prompt">Seberapa sering Anda olahraga?</string>
+    <string name="choose_one">Pilih satu</string>
+    <string name="akg">AKG</string>
+    <string-array name="exercise_items">
+        <item>
+            Sangat jarang berolahraga
+        </item>
+        <item>
+            Jarang olahraga (1-3 kali per minggu)
+        </item>
+        <item>
+            Cukup olahraga (3-5 kali per minggu)
+        </item>
+        <item>
+            Sering olahraga (6-7 kali per minggu)
+        </item>
+        <item>
+            Sangat sering olahraga (sekitar 2 kali dalam sehari)
+        </item>
+    </string-array>
 </resources>

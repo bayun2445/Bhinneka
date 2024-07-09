@@ -35,6 +35,7 @@ import com.bayu.bhinneka.helper.bitmapToFile
 import com.bayu.bhinneka.helper.uriToFile
 import com.bayu.bhinneka.ui.list_jajanan.ListJajananActivity
 import com.bayu.bhinneka.ui.login.LoginActivity
+import com.bayu.bhinneka.ui.metabolic_rate.MetabolicPreferenceActivity
 import com.bayu.bhinneka.ui.result.ResultActivity
 import kotlinx.coroutines.launch
 
@@ -195,6 +196,14 @@ class MainActivity : AppCompatActivity() {
 
             R.id.menu_logout -> {
                 logout()
+
+                true
+            }
+
+            R.id.menu_pref -> {
+                startActivity(
+                    Intent(this, MetabolicPreferenceActivity::class.java)
+                )
 
                 true
             }
