@@ -50,10 +50,10 @@
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
 
+        <item name="fontFamily">@font/open_sans</item>
+        <item name="android:fontFamily">@font/open_sans</item>
     </style>
 
-    <style name="Theme.Bhinneka" parent="Base.Theme.Bhinneka" />
-
-
+    <style name="Theme.Bhinneka" parent="Base.Theme.Bhinneka"/>
 
 </resources>
