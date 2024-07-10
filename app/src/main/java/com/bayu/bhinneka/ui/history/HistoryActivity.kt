@@ -20,6 +20,7 @@ import com.bayu.bhinneka.databinding.ActivityHistoryBinding
 import com.bayu.bhinneka.helper.HISTORY_EXTRA
 import com.bayu.bhinneka.helper.toPercent
 import com.bumptech.glide.Glide
+import kotlin.math.roundToInt
 
 class HistoryActivity : AppCompatActivity() {
 
@@ -34,7 +35,7 @@ class HistoryActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         setSupportActionBar(binding.topBarMenu)
-        supportActionBar?.title = "History"
+        supportActionBar?.title = "Riwayat"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -49,16 +50,42 @@ class HistoryActivity : AppCompatActivity() {
             finish()
         }
 
+        viewModel.init(this)
+
         viewModel.getJajanan(historyIntent.resultJajananName).observe(this) { jajanan ->
             Log.d("HistoryActivity", jajanan.toString())
             jajanan?.let {
                 loadJajanan(it)
+                loadPreferences()
                 binding.container.visibility = View.VISIBLE
                 binding.cvLoading.visibility = View.GONE
             }
         }
 
 
+    }
+
+    private fun loadPreferences() {
+        binding.apply {
+            val metabolicPercentage =
+                txtCalorie.text.toString()
+                    .replace("kkal", "")
+                    .toFloat() / viewModel.getResult()
+
+            if (viewModel.getResult() == 0f) {
+                txtCalculate.visibility = View.VISIBLE
+                llMetabolicNeed.visibility = View.GONE
+            } else {
+                txtMetabolicNeed.text = metabolicPercentage.toPercent(1)
+                txtCalculate.visibility = View.GONE
+                llMetabolicNeed.visibility = View.VISIBLE
+            }
+
+            txtMetabolicLabel.text = buildString {
+                append("${ getString(R.string.akg) }: ")
+                append(viewModel.getResult().roundToInt())
+            }
+        }
     }
 
     private fun loadJajanan(jajanan: Jajanan) {

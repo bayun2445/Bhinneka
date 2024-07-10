@@ -3,12 +3,12 @@ package com.bayu.bhinneka.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bayu.bhinneka.data.repository.Repository
+import com.bayu.bhinneka.data.repository.FirebaseRepository
 import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel: ViewModel() {
 
-    private val repository = Repository()
+    private val repository = FirebaseRepository()
 
     private val _currentUser = MutableLiveData<FirebaseUser?>()
     private val _message = MutableLiveData<String?>()

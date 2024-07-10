@@ -21,7 +21,7 @@ import com.google.firebase.database.database
 import com.google.firebase.storage.storage
 import java.io.ByteArrayOutputStream
 
-class Repository {
+class FirebaseRepository {
     private val database = Firebase.database.reference
     private val auth = FirebaseAuth.getInstance()
     private val storage = Firebase.storage.reference
@@ -170,7 +170,7 @@ class Repository {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("Repository", "Failed to load jajananList: ", error.toException())
+                Log.e("FirebaseRepository", "Failed to load jajananList: ", error.toException())
             }
 
         })
@@ -200,7 +200,7 @@ class Repository {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("Repository", "Failed to load jajananList: ", error.toException())
+                Log.e("FirebaseRepository", "Failed to load jajananList: ", error.toException())
             }
         })
 //            .child(name).get()
@@ -335,7 +335,7 @@ class Repository {
     }
 
     companion object {
-        private const val TAG = "Repository"
+        private const val TAG = "FirebaseRepository"
         private const val CHILD_USERS = "users"
         private const val CHILD_JAJANAN = "jajanan"
         private const val CHILD_HISTORY = "history"

@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -21,14 +20,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.get
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bayu.bhinneka.R
 import com.bayu.bhinneka.data.model.History
-import com.bayu.bhinneka.data.repository.Preferences
+import com.bayu.bhinneka.data.repository.PreferencesRepository
 import com.bayu.bhinneka.databinding.ActivityMainBinding
 import com.bayu.bhinneka.helper.IMAGE_EXTRA
 import com.bayu.bhinneka.helper.ROLE_EXTRA
@@ -215,7 +213,7 @@ class MainActivity : AppCompatActivity() {
     private fun logout() {
         lifecycleScope.launch {
             val credentialManager = CredentialManager.create(this@MainActivity)
-            val preferences = Preferences.getInstance(this@MainActivity)
+            val preferences = PreferencesRepository.getInstance(this@MainActivity)
 
             preferences.clearPreferences()
             viewModel.signOut()

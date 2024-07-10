@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bayu.bhinneka.data.model.Jajanan
-import com.bayu.bhinneka.data.repository.Repository
+import com.bayu.bhinneka.data.repository.FirebaseRepository
 
 class EditJajananViewModel: ViewModel() {
 
-    private val repository = Repository()
+    private val repository = FirebaseRepository()
 
     private val _isLoading = MutableLiveData<Boolean>()
     private val _isSuccessful = MutableLiveData<Boolean>()

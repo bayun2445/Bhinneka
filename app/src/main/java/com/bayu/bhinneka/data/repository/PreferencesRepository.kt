@@ -3,7 +3,7 @@ package com.bayu.bhinneka.data.repository
 import android.content.Context
 import android.content.SharedPreferences
 
-class Preferences private constructor(context: Context) {
+class PreferencesRepository private constructor(context: Context) {
 
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("metabolic_prefs", Context.MODE_PRIVATE)
@@ -123,11 +123,11 @@ class Preferences private constructor(context: Context) {
 
     companion object {
         @Volatile
-        private var INSTANCE: Preferences? = null
+        private var INSTANCE: PreferencesRepository? = null
 
-        fun getInstance(context: Context): Preferences {
+        fun getInstance(context: Context): PreferencesRepository {
             synchronized(this) {
-                return INSTANCE ?: Preferences(context).also {
+                return INSTANCE ?: PreferencesRepository(context).also {
                     INSTANCE = it
                     it.loadPreferences() // Load preferences when creating the instance
                 }

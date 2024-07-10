@@ -1,16 +1,15 @@
 package com.bayu.bhinneka.ui.metabolic_rate
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.bayu.bhinneka.data.repository.Preferences
+import com.bayu.bhinneka.data.repository.PreferencesRepository
 
 class MetabolicPreferenceViewModel : ViewModel() {
 
-    lateinit var preferences: Preferences
+    lateinit var preferences: PreferencesRepository
 
     fun init(context: Context) {
-        preferences = Preferences.getInstance(context)
+        preferences = PreferencesRepository.getInstance(context)
     }
 
     fun inputPreferences(
