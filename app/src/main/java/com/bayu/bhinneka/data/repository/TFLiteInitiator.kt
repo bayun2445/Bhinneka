@@ -3,7 +3,6 @@ package com.bayu.bhinneka.data.repository
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
-import com.bayu.bhinneka.helper.toPercent
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
 import com.google.firebase.ml.modeldownloader.DownloadType
 import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader

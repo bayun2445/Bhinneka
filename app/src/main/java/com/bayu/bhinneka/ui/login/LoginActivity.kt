@@ -140,6 +140,7 @@ class LoginActivity : AppCompatActivity() {
                         Intent(this, MainActivity::class.java)
                             .putExtra(ROLE_EXTRA, false)
                     )
+                    finish()
                 }
             }
 

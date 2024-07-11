@@ -1,7 +1,6 @@
 package com.bayu.bhinneka.ui.metabolic_rate
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
