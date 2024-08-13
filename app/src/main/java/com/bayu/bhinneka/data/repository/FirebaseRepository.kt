@@ -81,12 +81,6 @@ class FirebaseRepository {
                     Log.w("Email SignUp", "Failure:", it.exception)
 
                     when (it.exception) {
-                        is FirebaseAuthInvalidCredentialsException -> {
-                            result(
-                                null,
-                                "Email atau password salah!",
-                            )
-                        }
                         is FirebaseAuthUserCollisionException -> {
                             result(
                                 null,
@@ -112,11 +106,9 @@ class FirebaseRepository {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
                     Log.d("Email SignIn", "Success")
                     result(getCurrentUser(), null)
                 } else {
-                    // If sign in fails, display a message to the user.
                     Log.w("Email SignIn", "Failure:", it.exception)
 
                     when (it.exception) {
@@ -186,33 +178,12 @@ class FirebaseRepository {
                 Log.d(TAG, snapshot.value.toString())
                 val jajanan = snapshot.getValue(Jajanan::class.java)
                 liveData.value = jajanan
-
-
-//                val jajananList = mutableListOf<Jajanan>()
-//                for (child in snapshot.children) {
-//                    val jajanan = child.getValue(Jajanan::class.java)
-//                    if (jajanan != null) {
-//                        jajananList.add(jajanan)
-//                    }
-//                }
-//
-//                liveData.value = jajananList
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e("FirebaseRepository", "Failed to load jajananList: ", error.toException())
             }
         })
-//            .child(name).get()
-//            .addOnSuccessListener {
-//                val jajananData = it.getValue(Jajanan::class.java)
-//                Log.d(TAG, it.value.toString())
-//                Log.d(TAG, jajananData.toString())
-//                jajanan = jajananData
-//            }
-//            .addOnFailureListener {
-//                Log.e(TAG, it.message.toString())
-//            }
 
         return liveData
     }
@@ -224,7 +195,10 @@ class FirebaseRepository {
             }
     }
 
-    fun updateJajanan(jajanan: Jajanan, isSuccessful: (Boolean) -> Unit) {
+    fun updateJajanan(
+        jajanan: Jajanan,
+        isSuccessful: (Boolean) -> Unit
+    ) {
         database.child(CHILD_JAJANAN).child(jajanan.name).setValue(jajanan)
             .addOnCompleteListener { task ->
                 isSuccessful(task.isSuccessful)
@@ -246,10 +220,7 @@ class FirebaseRepository {
         database.child(CHILD_HISTORY).child(getUID()).orderByChild("timeStamp").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val historyList = mutableListOf<History>()
-                Log.d(TAG, getUID())
-                Log.d(TAG, snapshot.value.toString())
                 for (child in snapshot.children) {
-                    Log.d(TAG, child.value.toString())
                     val history = child.getValue(History::class.java)
                     if (history != null) {
                         historyList.add(history)
@@ -269,7 +240,9 @@ class FirebaseRepository {
     }
 
     fun addNewHistory(history: History) {
-        database.child(CHILD_HISTORY).child(getUID()).child(history.id).setValue(history)
+        database.child(CHILD_HISTORY).child(getUID())
+            .child(history.id)
+            .setValue(history)
     }
 
     //--Storage
@@ -334,6 +307,19 @@ class FirebaseRepository {
             }
     }
 
+    // Inference
+    fun uploadInferenceImage(
+        bitmap: Bitmap,
+    ) {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        val data = outputStream.toByteArray()
+
+        val ref = storage.child(CHILD_STORAGE_INFERENCE).child(generateId(3))
+        ref.putBytes(data)
+
+    }
+
     companion object {
         private const val TAG = "FirebaseRepository"
         private const val CHILD_USERS = "users"
@@ -341,5 +327,6 @@ class FirebaseRepository {
         private const val CHILD_HISTORY = "history"
         private const val CHILD_STORAGE_ASSET = "assets"
         private const val CHILD_STORAGE_HISTORY = "history_images"
+        private const val CHILD_STORAGE_INFERENCE = "inference"
     }
 }

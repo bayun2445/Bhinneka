@@ -47,8 +47,10 @@ class LoginActivity : AppCompatActivity() {
             updateUI(it)
         }
 
-        viewModel.message.observe(this) {
-            showToast(it)
+        viewModel.message.observe(this) { message ->
+            message?.let{
+                showToast(it)
+            }
         }
     }
 
@@ -101,9 +103,38 @@ class LoginActivity : AppCompatActivity() {
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
                 Log.d("Error", e.message.toString())
+                showToast("Error: ${e.message}")
             }
         }
     }
+
+//    private fun signInGoogle() {
+//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken(BuildConfig.CLIENT_ID)
+//            .requestEmail()
+//            .build()
+//
+//        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+//
+//        val signInIntent = googleSignInClient.signInIntent
+//        startActivityForResult(signInIntent, RC_SIGN_IN) // Define RC_SIGN_IN as a constant (e.g., 9001)
+//    }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (requestCode == RC_SIGN_IN) {
+//            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+//            try {
+//                val account = task.getResult(ApiException::class.java)
+//                // Handle successful sign-in with the account object
+//                handleSignIn(account)
+//            } catch (e: ApiException) {
+//                Log.d("Error", e.message.toString())
+//                showToast("Error: ${e.message.toString()}")
+//            }
+//        }
+//    }
 
     private fun handleSignIn(result: GetCredentialResponse) {
         when (val credential = result.credential) {
@@ -125,6 +156,20 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+//    private fun handleSignIn(account: GoogleSignInAccount?) {
+//        if (account != null) {
+//            val idToken = account.idToken
+//            if (idToken != null) {
+//                viewModel.signInWithGoogle(idToken)
+//            } else {
+//                Log.e(TAG, "ID token is null")
+//                // Handle the case where ID token is null (e.g., show an error message)
+//            }
+//        } else {
+//            Log.e(TAG, "GoogleSignInAccount is null")
+//            // Handle the case where the account is null (e.g., sign-in failed)
+//        }
+//    }
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if (currentUser != null){
@@ -153,5 +198,6 @@ class LoginActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "LoginActivity"
+        private const val RC_SIGN_IN = 9001
     }
 }

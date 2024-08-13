@@ -65,13 +65,13 @@
     <string name="edit_jajanan">Edit Jajanan</string>
     <string name="save">Simpan</string>
     <string name="logout">Logout</string>
-    <string name="prediction_result">Hasil Prediksi</string>
+    <string name="prediction_result">Hasil Klasifikasi Gambar</string>
     <string name="menu_gallery">Galeri</string>
     <string name="menu_camera">Kamera\n</string>
     <string name="choose_picture">Pilih Gambar</string>
     <string name="error_password">Password minimal terdiri dari 8 karakter</string>
     <string name="error_email">Format email invalid!</string>
-    <string name="click_to_register">Belum punya akun? Klik untuk registrasi.</string>
+    <string name="click_to_register">Belum punya akun? Tap untuk registrasi.</string>
     <string name="sign_up">Sign Up</string>
     <string name="empty_field_alert">Field tidak boleh kosong!</string>
     <string name="no_history">Riwayat belum ada.</string>

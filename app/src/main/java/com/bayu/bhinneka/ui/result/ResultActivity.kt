@@ -57,7 +57,6 @@ class ResultActivity : AppCompatActivity() {
                 intent.extras?.getSerializable(IMAGE_EXTRA) as File
             }
 
-            Log.w(TAG, intentImageResult.toString())
             imgBitmap = BitmapFactory.decodeFile(intentImageResult.path)
             binding.imgResult.setImageBitmap(imgBitmap)
 
@@ -86,6 +85,8 @@ class ResultActivity : AppCompatActivity() {
         viewModel.result.observe(this) { resultArray ->
             val name = resultArray[0]
             matchScore = resultArray[1]?.toFloat()
+            val classificationTime = resultArray[2]
+            Log.d(TAG, classificationTime.toString())
             binding.txtLabelResult.text = name
             binding.txtOutput.text = buildString {
                 append("Tingkat kecocokan: ")
@@ -120,7 +121,6 @@ class ResultActivity : AppCompatActivity() {
     private fun saveHistory(name: String, imgPath: String?) {
 
         viewModel.getJajanan(name).observe(this) { jajanan ->
-            Log.d(TAG, jajanan.toString())
             jajanan?.let {
                 loadJajanan(it)
                 loadPreferences()

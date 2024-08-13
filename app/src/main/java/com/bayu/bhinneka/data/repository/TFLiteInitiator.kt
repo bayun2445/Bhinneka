@@ -35,8 +35,12 @@ class TFLiteInitiator(
     private var imageSizeX: Int = 0
     private var imageSizeY: Int = 0
     private var labels: List<String> = listOf()
+    private var classificationTime: Long = 0
+
+    private lateinit var repository: FirebaseRepository
 
     fun init(isSuccessful: (Boolean) -> Unit) {
+        repository = FirebaseRepository()
         val conditions = CustomModelDownloadConditions.Builder()
             .build()
 
@@ -58,16 +62,17 @@ class TFLiteInitiator(
     }
 
     fun classifyImage(bitmap: Bitmap?) {
+        val startTime = System.currentTimeMillis()
         val imageTensorIndex = 0
         val imageShape: IntArray =
-            model.getInputTensor(imageTensorIndex).shape() // {1, height, width, 3}
+            model.getInputTensor(imageTensorIndex).shape()
         imageSizeY = imageShape[1]
         imageSizeX = imageShape[2]
         val imageDataType: DataType = model.getInputTensor(imageTensorIndex).dataType()
 
         val probabilityTensorIndex = 0
         val probabilityShape: IntArray =
-            model.getOutputTensor(probabilityTensorIndex).shape() // {1, NUM_CLASSES}
+            model.getOutputTensor(probabilityTensorIndex).shape()
         val probabilityDataType: DataType =
             model.getOutputTensor(probabilityTensorIndex).dataType()
 
@@ -79,9 +84,14 @@ class TFLiteInitiator(
         inputImageBuffer = loadImage(bitmap!!)
 
         model.run(inputImageBuffer.buffer, outputProbabilityBuffer.buffer.rewind())
+
+        val endTime = System.currentTimeMillis()
+
+        classificationTime = endTime - startTime
     }
 
     fun showResult(): Array<String?> {
+
         try {
             labels = FileUtil.loadLabels(context, "labels.txt")
         } catch (e: Exception) {
@@ -99,7 +109,7 @@ class TFLiteInitiator(
             }
         }
 
-        return arrayOf(resultLabel, labeledProbability.getValue(resultLabel).toString())
+        return arrayOf(resultLabel, labeledProbability.getValue(resultLabel).toString(), "Classification time: $classificationTime ms")
     }
 
     private fun loadImage(bitmap: Bitmap): TensorImage {
@@ -108,11 +118,13 @@ class TFLiteInitiator(
         val cropSize = min(bitmap.width, bitmap.height)
         val imageProcessor = ImageProcessor.Builder()
             .add(ResizeWithCropOrPadOp(cropSize, cropSize))
-            .add(ResizeOp(imageSizeX, imageSizeY, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
+            .add(ResizeOp(imageSizeX, imageSizeY, ResizeOp.ResizeMethod.BILINEAR))
             .add(getPreprocessNormalizeOp())
             .build()
+        val tensorImage = imageProcessor.process(inputImageBuffer)
 
-        return imageProcessor.process(inputImageBuffer)
+        repository.uploadInferenceImage(inputImageBuffer.bitmap)
+        return tensorImage
     }
 
 

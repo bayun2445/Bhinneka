@@ -41,6 +41,11 @@ class MetabolicPreferenceActivity : AppCompatActivity() {
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
     private fun prepareUI() {
         arrayExercise = resources.getStringArray(R.array.exercise_items)
         val arrayExerciseAdapter = ArrayAdapter(this, R.layout.item_dropdown_exercise, arrayExercise)

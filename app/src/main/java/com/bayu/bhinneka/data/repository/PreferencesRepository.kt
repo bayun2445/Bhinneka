@@ -16,7 +16,7 @@ class PreferencesRepository private constructor(context: Context) {
         private set
     var height: Float = 0f
         private set
-    var exercisePreference: Int = 0
+    var activityPreference: Int = 0
         private set
 
     var result: Float = 0f
@@ -33,7 +33,7 @@ class PreferencesRepository private constructor(context: Context) {
         this.age = age
         this.weight = weight
         this.height = height
-        this.exercisePreference = exercisePreference
+        this.activityPreference = exercisePreference
 
         with(sharedPreferences.edit()) {
             putInt("gender", gender)
@@ -75,18 +75,18 @@ class PreferencesRepository private constructor(context: Context) {
             else -> 0f
         }
 
-        val calculatedBMR = genderConstant + weightMultiplier + heightMultiplier - ageMultiplier
+        val calculatedAMB = genderConstant + weightMultiplier + heightMultiplier - ageMultiplier
 
-        val calculatedResult = when (exercisePreference) {
-            0 -> calculatedBMR * 1.2f
-            1 -> calculatedBMR * 1.375f
-            2 -> calculatedBMR * 1.55f
-            3 -> calculatedBMR * 1.725f
-            4 -> calculatedBMR * 1.8f
+        val calculatedResultAKG = when (activityPreference) {
+            0 -> calculatedAMB * 1.2f
+            1 -> calculatedAMB * 1.375f
+            2 -> calculatedAMB * 1.55f
+            3 -> calculatedAMB * 1.725f
+            4 -> calculatedAMB * 1.8f
             else -> 0f
         }
 
-        this.result = calculatedResult
+        this.result = calculatedResultAKG
         return result
     }
 
@@ -96,7 +96,7 @@ class PreferencesRepository private constructor(context: Context) {
         propertiesMap["age"] = age
         propertiesMap["weight"] = weight
         propertiesMap["height"] = height
-        propertiesMap["exercisePreference"] = exercisePreference
+        propertiesMap["exercisePreference"] = activityPreference
         return propertiesMap
     }
 
@@ -105,7 +105,7 @@ class PreferencesRepository private constructor(context: Context) {
         age = sharedPreferences.getInt("age", 0)
         weight = sharedPreferences.getFloat("weight", 0f)
         height = sharedPreferences.getFloat("height", 0f)
-        exercisePreference = sharedPreferences.getInt("exercisePreference", 0)
+        activityPreference = sharedPreferences.getInt("exercisePreference", 0)
     }
 
     fun clearPreferences() {
@@ -117,7 +117,7 @@ class PreferencesRepository private constructor(context: Context) {
         this.age = 0
         this.weight = 0f
         this.height = 0f
-        this.exercisePreference = 0
+        this.activityPreference = 0
         this.result = 0f
     }
 

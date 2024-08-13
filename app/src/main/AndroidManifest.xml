@@ -30,38 +30,33 @@
         </activity>
         <activity
             android:name=".ui.metabolic_rate.MetabolicPreferenceActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.register.RegisterActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.edit_jajanan.EditJajananActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.list_jajanan.ListJajananActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.result.ResultActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.history.HistoryActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Bhinneka">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true" />
         <activity
             android:name=".ui.add_jajanan.AddJajananActivity"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <provider

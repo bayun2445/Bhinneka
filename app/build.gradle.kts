@@ -10,7 +10,6 @@ plugins {
 android {
     namespace = "com.bayu.bhinneka"
     compileSdk = 34
-    compileSdkPreview = "VanillaIceCream"
 
     defaultConfig {
         applicationId = "com.bayu.bhinneka"
