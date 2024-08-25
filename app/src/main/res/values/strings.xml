@@ -56,7 +56,7 @@
     <string name="email">E-mail\n</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
-    <string name="sign_in_google">Sign In with Google</string>
+    <string name="sign_in_google">Sign In dengan Google</string>
     <string name="about">About</string>
     <string name="detection_button">Ambil gambar</string>
     <string name="history">Riwayat</string>
@@ -71,7 +71,7 @@
     <string name="choose_picture">Pilih Gambar</string>
     <string name="error_password">Password minimal terdiri dari 8 karakter</string>
     <string name="error_email">Format email invalid!</string>
-    <string name="click_to_register">Belum punya akun? Tap untuk registrasi.</string>
+    <string name="click_to_register">Belum punya akun? Tap untuk registrasi atau,</string>
     <string name="sign_up">Sign Up</string>
     <string name="empty_field_alert">Field tidak boleh kosong!</string>
     <string name="no_history">Riwayat belum ada.</string>
@@ -105,6 +105,8 @@
     <string name="akg_2200">AKG: 2200</string>
     <string name="calculate_akg">Tap untuk Kalkulasi AKG</string>
     <string name="tagline">Kenali Budaya, Perhatikan Gizi</string>
+    <string name="sign_in_guest">Masuk tanpa Akun</string>
+    <string name="guest_no_history">Buat akun untuk mengaktifkan fitur riwayat.</string>
     <string-array name="exercise_items">
         <item>
             Sangat jarang berolahraga

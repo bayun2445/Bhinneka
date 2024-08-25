@@ -93,26 +93,25 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
-        if (viewModel.getCurrentUser() == null) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-            return
-        }
-
         isAdmin = intent.getBooleanExtra(ROLE_EXTRA, false)
-        binding.txtUsername.text = getString(R.string.welcome, viewModel.getCurrentUser()?.email)
+
+        if (viewModel.getCurrentUser() != null) {
+            binding.txtUsername.text = getString(R.string.welcome, viewModel.getCurrentUser()?.email)
+            viewModel.getAllHistory().observe(this) {
+                if (!it.isNullOrEmpty()) {
+                    binding.txtNoHistory.visibility = View.GONE
+                    loadHistoryList(it)
+                }
+            }
+
+            binding.rvListHistory.layoutManager = LinearLayoutManager(this)
+        } else {
+            binding.txtUsername.text = getString(R.string.welcome, "Guest")
+            binding.txtNoHistory.text = getString(R.string.guest_no_history)
+        }
 
         setPopUpMenu()
 
-        viewModel.getAllHistory().observe(this) {
-            if (!it.isNullOrEmpty()) {
-                binding.txtNoHistory.visibility = View.GONE
-                loadHistoryList(it)
-            }
-        }
-
-        binding.rvListHistory.layoutManager = LinearLayoutManager(this)
     }
 
     private fun loadHistoryList(histories: List<History>) {
@@ -180,6 +179,11 @@ class MainActivity : AppCompatActivity() {
         if (!isAdmin) {
             menu?.findItem(R.id.menu_edit)?.setVisible(false)
         }
+
+        if (viewModel.getCurrentUser() == null) {
+            menu?.findItem(R.id.menu_logout)?.setVisible(false)
+        }
+
         return true
     }
 

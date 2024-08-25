@@ -37,6 +37,8 @@ class ResultViewModel: ViewModel() {
         }
     }
 
+    private fun getCurrentUser() = repository.getCurrentUser()
+
     fun classifyImage(bitmap: Bitmap) {
         tfLiteHelper.classifyImage(bitmap)
 
@@ -49,13 +51,19 @@ class ResultViewModel: ViewModel() {
     }
 
     fun addNewHistory(history: History) {
-        repository.addNewHistory(history)
+        if (getCurrentUser() != null) {
+            repository.addNewHistory(history)
+        }
         _isLoading.value = false
     }
 
     fun uploadImage(bitmap: Bitmap) {
-        repository.uploadHistoryImage(bitmap) { _, path ->
-            _imgPath.value = path
+        if (getCurrentUser() != null) {
+            repository.uploadHistoryImage(bitmap) { _, path ->
+                _imgPath.value = path
+            }
+        } else {
+            _imgPath.value = "guest"
         }
     }
 

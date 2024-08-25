@@ -125,5 +125,14 @@
         app:layout_constraintStart_toStartOf="@+id/btn_sign_in_google"
         app:layout_constraintTop_toBottomOf="@+id/btn_sign_in_google" />
 
-
+    <Button
+        android:id="@+id/btn_sign_in_guest"
+        style="@style/ThemeOverlay.Material3.Button.ElevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in_guest"
+        app:layout_constraintEnd_toEndOf="@+id/btn_sign_in"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/btn_sign_in"
+        app:layout_constraintTop_toBottomOf="@+id/txt_create_account" />
 </androidx.constraintlayout.widget.ConstraintLayout>

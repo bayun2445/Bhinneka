@@ -63,6 +63,15 @@ class LoginActivity : AppCompatActivity() {
             signInEmail()
         }
 
+        binding.btnSignInGuest.setOnClickListener {
+            startActivity(
+                Intent(this@LoginActivity, MainActivity::class.java)
+                    .putExtra(ROLE_EXTRA, false)
+            )
+
+            finish()
+        }
+
         binding.txtCreateAccount.setOnClickListener {
             startActivity(
                 Intent(this, RegisterActivity::class.java)
